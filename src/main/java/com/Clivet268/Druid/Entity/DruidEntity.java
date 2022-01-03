@@ -70,7 +70,7 @@ public class DruidEntity extends EntityCreature
     public boolean shouldCollectWater() {
 
         if(this.dataManager.get(DATA_WATER).intValue() + this.dataManager.get(DATA_BREWS).intValue() > 10){
-            setWater(100- this.dataManager.get(DATA_BREWS).intValue());
+            setWater(16- this.dataManager.get(DATA_BREWS).intValue());
             //logger.info("should collect " + false);
             return false;
 
@@ -79,7 +79,7 @@ public class DruidEntity extends EntityCreature
     }
     public boolean shouldCollectDye() {
         if(this.dataManager.get(DATA_DYES).intValue() + this.dataManager.get(DATA_BREWS).intValue() > 10){
-            setDyes( 100- this.dataManager.get(DATA_BREWS).intValue());
+            setDyes( 16- this.dataManager.get(DATA_BREWS).intValue());
             return false;
         }
 
