@@ -202,7 +202,7 @@ public class DruidEntity extends EntityCreature
         }
         if (item == Items.WATER_BUCKET)
         {
-            f = 0.5F;
+            f = 0.3F;
             if(this.shouldCollectWater()) {
                 this.setWater(this.dataManager.get(DATA_WATER).intValue() + 3);
             }
