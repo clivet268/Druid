@@ -102,7 +102,7 @@ public class DruidEntity extends EntityCreature
 
     {
         super(worldIn);
-        this.setSize(0.9F, 2.8F);
+        this.setSize(0.9F, 0.9F);
     }
     protected void entityInit()
     {
