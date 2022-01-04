@@ -4,12 +4,8 @@ import com.Clivet268.Druid.Druid;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.particle.IParticleFactory;
 import net.minecraft.client.particle.Particle;
-import net.minecraft.client.particle.ParticleExplosion;
 import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.entity.Entity;
-import net.minecraft.init.Blocks;
-import net.minecraft.init.SoundEvents;
-import net.minecraft.item.Item;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
@@ -51,9 +47,9 @@ public class LifeParticle extends Particle {
         this.motionZ += vz * 0.4D;
         this.particleRed = this.particleGreen = this.particleBlue = 1.0F;
         this.particleAlpha = 0F;
-        this.particleScale *= 1.45F * (rand.nextBoolean() ? -1F : 1F);
+        this.particleScale *= 4.0F;
         this.particleScale *= scale;
-        this.particleMaxAge = 60 + ((int) (rand.nextFloat() * 30F));
+        this.particleMaxAge = 90 + ((int) (rand.nextFloat() * 30F));
         this.particleMaxAge = (int) ((float) this.particleMaxAge * scale);
         this.canCollide = true;
         this.ttype = teype;
@@ -72,10 +68,9 @@ public class LifeParticle extends Particle {
         if (this.particleAge++ >= this.particleMaxAge) {
             this.setExpired();
         }
-
         this.move(this.motionX, this.motionY, this.motionZ);
 
-        this.motionY += 0.005D;
+        this.motionY+= 0.0001D / (((double)this.particleAge)/4.5D);
 
         if (this.onGround) {
             this.motionX *= 0.699999988079071D;
@@ -96,7 +91,7 @@ public class LifeParticle extends Particle {
     @Override
     public void renderParticle(BufferBuilder buffer, Entity entityIn, float partialTicks, float rotationX, float rotationZ, float rotationYZ, float rotationXY, float rotationXZ) {
         particleAlpha = Math.min(MathHelper.clamp(particleAge, 0, 20) / 20F, MathHelper.clamp(particleMaxAge - particleAge, 0, 20) / 20F);
-        super.renderParticle(buffer, entityIn, partialTicks, rotationX, rotationZ + MathHelper.cos((float) Math.toRadians((rot + partialTicks) % 360F)), rotationYZ, rotationXY, rotationXZ);
+        super.renderParticle(buffer, entityIn, partialTicks, rotationX, rotationZ, rotationYZ, rotationXY, rotationXZ);
     }
 
     @Override
