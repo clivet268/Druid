@@ -7,3 +7,15 @@ Entities Added: Druid(WIP)
 
 Other:
 Druid basic functionality, appearance and sound added
+1/3/2022
+Machine Built World V1.0.1 Alpha
+
+Blocks Added: Druid Heart(WIP)
+
+Structures Added: Druid Temple(WIP), Druid Well(WIP)
+
+Tile Entities Added: Druid Heart
+
+Other:
+Druid basic functionality, and regrowth effects/function greatly improved
+Lang Files Updated
