@@ -119,7 +119,7 @@ public class EntityAIRegrow extends EntityAIBase
                         ((DruidEntity) (this.druid)).brew();
                     ((DruidEntity) (this.druid)).setBrews(((DruidEntity) (this.druid)).getBrews() - 1);
                     this.entityWorld.setBlockState(nearbysans, bloks.get(this.entityWorld.getBlockState(nearbysans).getBlock()).getDefaultState(), 3);
-                    for (int i = new Random().nextInt(12); i >= 0; i--) {
+                    for (int i = 5 + new Random().nextInt(12); i >= 0; i--) {
                         Minecraft.getMinecraft().effectRenderer.addEffect(new LifeParticle(this.entityWorld, this.druid.posX, this.druid.posY, this.druid.posZ, (new Random().nextDouble()-0.5)/3, 0, (new Random().nextDouble()-0.3)/3, LifeParticle.LifeType.REGROWTH));
                     }
                     this.druid.getNavigator().clearPath();
@@ -128,7 +128,7 @@ public class EntityAIRegrow extends EntityAIBase
 
         }
         else{
-            System.out.println("AAAAAAAAAA " + this.druid.getNavigator().tryMoveToXYZ(this.nearbysans.getX(), this.nearbysans.getY(), this.nearbysans.getZ(), 0.6) + " " + this.nearbysans);
+            //System.out.println("AAAAAAAAAA " + this.druid.getNavigator().tryMoveToXYZ(this.nearbysans.getX(), this.nearbysans.getY(), this.nearbysans.getZ(), 0.6) + " " + this.nearbysans);
             this.druid.getNavigator().tryMoveToXYZ(this.nearbysans.getX(), this.nearbysans.getY(), this.nearbysans.getZ(), 0.6);
         }
     }

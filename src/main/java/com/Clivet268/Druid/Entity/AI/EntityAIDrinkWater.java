@@ -4,10 +4,8 @@ import com.Clivet268.Druid.Entity.DruidEntity;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.ai.EntityAIBase;
-import net.minecraft.entity.ai.EntityAIMoveToBlock;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
 
 import static com.Clivet268.Druid.Druid.logger;
 import static net.minecraft.block.BlockCauldron.LEVEL;
@@ -109,7 +107,7 @@ public class EntityAIDrinkWater extends EntityAIBase {
                         Block block = iblockstate.getBlock();
                         if (block == Blocks.WATER) {
                             this.bebpos =null;
-                            logger.info("teeyy");
+                            //logger.info("teeyy");
                             return entityPos;
                         } else if (block == Blocks.CAULDRON) {
                             if (this.druid.world.getBlockState(entityPos).getValue(LEVEL) >= 1) {
