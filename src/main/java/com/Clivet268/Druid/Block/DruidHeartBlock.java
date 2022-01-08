@@ -2,9 +2,9 @@ package com.Clivet268.Druid.Block;
 
 //import com.Clivet268.Druid.Tile.TileEntityDruidHeart;
 //import com.Clivet268.Druid.Util.RegistryHandler;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
-import net.minecraft.block.state.BlockFaceShape;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Particles;
@@ -13,7 +13,6 @@ import net.minecraft.tileentity.TileEntityEnchantmentTable;
 import net.minecraft.util.EnumBlockRenderType;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
-import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.shapes.IBooleanFunction;
 import net.minecraft.util.math.shapes.VoxelShape;

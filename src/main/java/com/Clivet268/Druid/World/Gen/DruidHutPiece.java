@@ -1,13 +1,8 @@
 package com.Clivet268.Druid.World.Gen;
 
-import net.minecraft.block.*;
-import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.state.properties.AttachFace;
-import net.minecraft.state.properties.RedstoneSide;
 import net.minecraft.tileentity.TileEntityLockableLoot;
-import net.minecraft.util.EnumFacing;
 import net.minecraft.util.Mirror;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Rotation;

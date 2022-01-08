@@ -2,7 +2,6 @@ package com.Clivet268.Druid.Entity.AI;
 
 import com.Clivet268.Druid.Entity.DruidEntity;
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockFlower;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityCreature;
 import net.minecraft.entity.ai.EntityAIBase;

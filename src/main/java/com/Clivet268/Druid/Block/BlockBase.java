@@ -2,8 +2,6 @@ package com.Clivet268.Druid.Block;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemBlock;
 
 public class BlockBase extends Block
 {

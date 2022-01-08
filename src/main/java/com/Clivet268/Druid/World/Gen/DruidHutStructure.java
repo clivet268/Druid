@@ -6,7 +6,10 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.gen.IChunkGenerator;
-import net.minecraft.world.gen.feature.structure.*;
+import net.minecraft.world.gen.feature.structure.JunglePyramidConfig;
+import net.minecraft.world.gen.feature.structure.JunglePyramidPiece;
+import net.minecraft.world.gen.feature.structure.ScatteredStructure;
+import net.minecraft.world.gen.feature.structure.StructureStart;
 
 public class DruidHutStructure extends ScatteredStructure<JunglePyramidConfig>{
 
