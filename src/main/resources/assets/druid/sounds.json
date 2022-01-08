@@ -1,0 +1,28 @@
+{
+
+  "entity.druid.hurt": {
+    "subtitle": "entity.druid.hurt.sub",
+    "sounds": [
+      {
+        "name": "druid:entity/druid/hurt_0",
+        "stream": true
+      }
+    ]
+  },
+  "entity.druid.ambient": {
+    "subtitle": "entity.druid.ambient.sub",
+    "sounds": [
+        "druid:entity/druid/ambient_0",
+        "druid:entity/druid/ambient_1"
+    ]
+  },
+  "entity.druid.death": {
+    "subtitle": "entity.druid.death.sub",
+    "sounds": [
+      {
+        "name": "druid:entity/druid/death_0",
+        "stream": true
+      }
+    ]
+  }
+}

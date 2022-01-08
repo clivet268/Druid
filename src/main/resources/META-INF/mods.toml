@@ -1,0 +1,11 @@
+modLoader="javafml"
+loaderVersion="[25,)"
+
+[[mods]]
+modId="druid"
+version="${file.jarVersion}"
+displayName="Druid"
+authors="Clivet268"
+description='''
+    
+    '''
