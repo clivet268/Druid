@@ -1,6 +1,5 @@
 package com.Clivet268.Druid.Util;
 
-import com.Clivet268.Druid.Block.BlockBase;
 import com.Clivet268.Druid.Block.DruidHeartBlock;
 import com.Clivet268.Druid.Configs;
 import com.Clivet268.Druid.Druid;
@@ -8,19 +7,14 @@ import com.Clivet268.Druid.Entity.DruidEntity;
 import com.Clivet268.Druid.Entity.Renderer.RenderDruid;
 import com.Clivet268.Druid.Particle.LifeParticle;
 import net.minecraft.block.Block;
-import net.minecraft.block.material.Material;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.particle.IParticleFactory;
-import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemBlock;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.world.storage.loot.LootTableList;
 import net.minecraftforge.client.event.ModelRegistryEvent;
 import net.minecraftforge.event.RegistryEvent;
-import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
@@ -48,6 +42,7 @@ public class RegistryHandler {
     //Blocks
     public static ArrayList<Block> BLOCKS = new ArrayList<>();
     public static final Block DRUID_HEART = new DruidHeartBlock("druid_heart");
+    public static final Block DRUID_SOUL_LIGHT = new DruidHeartBlock("druid_soul_light");
     @SubscribeEvent
     public static void registerBlocks(RegistryEvent.Register<Block> event)
     {
@@ -98,7 +93,7 @@ public class RegistryHandler {
             return event;
         }
     //Loot Table
-    public static final ResourceLocation DRUID = LootTableList.register(new ResourceLocation(Druid.MODID, "entity/druid"));
+    public static final ResourceLocation DRUID = LootTableList.register(new ResourceLocation(Druid.MODID, "entities/druid"));
 
 
     @SubscribeEvent
