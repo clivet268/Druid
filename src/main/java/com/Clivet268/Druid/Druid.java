@@ -1,20 +1,19 @@
 package com.Clivet268.Druid;
 
+import com.Clivet268.Druid.Client.Render.TileEntityDruidHeartRenderer;
 import com.Clivet268.Druid.Entity.DruidEntity;
 import com.Clivet268.Druid.Proxy.CommonProxy;
+import com.Clivet268.Druid.Tile.TileEntityDruidHeart;
 import com.Clivet268.Druid.Util.RegistryHandler;
 import com.Clivet268.Druid.World.Gen.WorldGenCustomStructures;
-import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
-import net.minecraft.item.Item;
-import net.minecraftforge.client.event.ModelRegistryEvent;
-import net.minecraftforge.event.RegistryEvent;
+import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import org.apache.logging.log4j.Logger;
 
@@ -51,6 +50,7 @@ public class Druid
         RegistryHandler.registerEntities();
         RegistryHandler.registerEntityRenders();
         GameRegistry.registerWorldGenerator(new WorldGenCustomStructures(), 0);
+        ClientRegistry.bindTileEntitySpecialRenderer(TileEntityDruidHeart.class, new TileEntityDruidHeartRenderer());
     }
 
     @EventHandler
@@ -61,8 +61,8 @@ public class Druid
         registerDataFixers();
         RegistryHandler.registerSounds();
         RegistryHandler.registerParticles();
-
-    }
+        GameRegistry.registerTileEntity(TileEntityDruidHeart.class, new ResourceLocation(Druid.MODID, "druid_heart"));
+         }
 
 
     //Data Fixer
