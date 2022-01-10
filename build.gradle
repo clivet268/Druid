@@ -12,7 +12,7 @@ apply plugin: 'net.minecraftforge.gradle'
 // Only edit below this line, the above code adds and enables the necessary things for Forge to be setup.
 apply plugin: 'maven-publish'
 
-version = '1.0.0'
+version = '1.0.1'
 group = 'com.clivet268.druid' // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = 'Druid'
 
@@ -86,7 +86,7 @@ jar {
         attributes([
             "Specification-Title": "Druid",
             "Implementation-Title": project.name,
-            "Implementation-Version": "${version}",
+            "Implementation-Version": version,
             "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ")
         ])
     }
