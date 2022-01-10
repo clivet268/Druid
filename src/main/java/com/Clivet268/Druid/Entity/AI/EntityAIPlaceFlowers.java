@@ -1,6 +1,7 @@
 package com.Clivet268.Druid.Entity.AI;
 
 import com.Clivet268.Druid.Entity.DruidEntity;
+import net.minecraft.block.BlockDoublePlant;
 import net.minecraft.block.BlockFlower;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityCreature;
@@ -10,9 +11,12 @@ import net.minecraft.init.Blocks;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
+import net.minecraft.world.biome.BiomeTaiga;
 
 import javax.annotation.Nullable;
 import java.util.ArrayList;
+
+import static net.minecraft.block.BlockDoublePlant.VARIANT;
 
 //TODO make brew based?
 public class EntityAIPlaceFlowers extends EntityAIBase
@@ -64,7 +68,20 @@ public class EntityAIPlaceFlowers extends EntityAIBase
                 flora.add(state);
             }
 
-            this.weight = new int[flora.size()];
+            BlockDoublePlant.EnumPlantType[] tyypes = new BlockDoublePlant.EnumPlantType[] {
+                    BlockDoublePlant.EnumPlantType.SUNFLOWER,
+                    BlockDoublePlant.EnumPlantType.PAEONIA,
+                    BlockDoublePlant.EnumPlantType.ROSE,
+                    BlockDoublePlant.EnumPlantType.SYRINGA,
+                    BlockDoublePlant.EnumPlantType.GRASS
+            };
+            for(BlockDoublePlant.EnumPlantType e : tyypes) {
+                IBlockState state = Blocks.DOUBLE_PLANT.getBlockState().getBaseState().withProperty(VARIANT, e);
+                flora.add(state);
+            }
+
+
+                this.weight = new int[flora.size()];
             this.weight[0] = 30;
             this.weight[1] = 1;
             this.weight[2] = 3;
@@ -75,6 +92,11 @@ public class EntityAIPlaceFlowers extends EntityAIBase
             this.weight[7] = 3;
             this.weight[8] = 28;
             this.weight[9] = 9;
+            this.weight[10] = 2;
+            this.weight[11] = 1;
+            this.weight[12] = 3;
+            this.weight[13] = 1;
+            this.weight[14] = 6;
 
 
 
@@ -82,17 +104,26 @@ public class EntityAIPlaceFlowers extends EntityAIBase
         }
         public IBlockState getFlora(){
             boolean check = true;
+            boolean spruceCheck = true;
             int rando = ((int)((Math.random() * 100) + 1));
             int spotto = ((int)((Math.random() * flora.size())));
-            while(check){
-                System.out.println("yup");
-                if(weight[spotto] >= rando){
-                    check=false;
+            while(spruceCheck) {
+                while (check) {
+                    System.out.println("yup");
+                    if (weight[spotto] >= rando) {
+                        check = false;
 
+                    } else {
+                        spotto = ((int) ((Math.random() * flora.size())));
+                        rando = ((int) ((Math.random() * 100) + 1));
+                    }
                 }
-                else{
-                    spotto = ((int)((Math.random() * flora.size())));
-                    rando = ((int)((Math.random() * 100) + 1));
+                if(!(this.entityWorld.getBiome(this.grassEaterEntity.getPosition()) instanceof BiomeTaiga)){
+                    if(!(( ((flora.get(spotto).getBlock()) instanceof BlockDoublePlant && flora.get(spotto).getBlock().getBlockState().getBaseState().getValue(VARIANT).equals(BlockDoublePlant.EnumPlantType.FERN))))){
+                        spruceCheck = false;
+                    }
+                }else {
+                    spruceCheck = false;
                 }
             }
             return flora.get(spotto);
