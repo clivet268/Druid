@@ -1,8 +1,6 @@
 package com.Clivet268.Druid.Block;
 
 import com.Clivet268.Druid.Tile.TileEntityDruidHeart;
-import net.minecraft.block.Block;
-import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.BlockFaceShape;
 import net.minecraft.block.state.IBlockState;
@@ -30,7 +28,7 @@ public class DruidHeartBlock extends BlockBase
         public DruidHeartBlock(String name)
         {
             super(name,Material.ROCK, CreativeTabs.DECORATIONS);
-            this.setLightOpacity(0);
+            this.setLightOpacity(4);
         }
 
         public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos)
@@ -92,7 +90,7 @@ public class DruidHeartBlock extends BlockBase
             return EnumBlockRenderType.MODEL;
         }
 
-        public TileEntity createNewTileEntity(World worldIn, int meta)
+        public TileEntity createTileEntity(World worldIn, IBlockState state)
         {
             return new TileEntityDruidHeart();
         }
