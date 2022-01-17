@@ -1,9 +1,11 @@
 package com.Clivet268.Druid.Entity;
 
+import com.Clivet268.Druid.Entity.AI.EntityAICollectDye;
 import com.Clivet268.Druid.Entity.AI.EntityAIDrinkWater;
 import com.Clivet268.Druid.Entity.AI.EntityAIPlaceFlowers;
 import com.Clivet268.Druid.Entity.AI.EntityAIRegrow;
 import com.Clivet268.Druid.Util.RegistryHandler;
+import net.minecraft.client.Minecraft;
 import net.minecraft.entity.EntityCreature;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.IEntityLivingData;
@@ -11,16 +13,14 @@ import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.*;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
+import net.minecraft.init.SoundEvents;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemDye;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
-import net.minecraft.util.DamageSource;
-import net.minecraft.util.EnumHand;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.SoundEvent;
+import net.minecraft.util.*;
 import net.minecraft.util.datafix.DataFixer;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.DifficultyInstance;
@@ -29,10 +29,11 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 import javax.annotation.Nullable;
+import java.util.Random;
 
 public class DruidEntity extends EntityCreature
 {
-
+    private EntityAICollectDye entityAICollectDye;
     private EntityAIPlaceFlowers entityAIPlaceFlowers;
     private EntityAIRegrow entityAIRegrow;
     private int actionTimer;
@@ -93,6 +94,9 @@ public class DruidEntity extends EntityCreature
                 setDyes(this.dataManager.get(DATA_DYES).intValue() -1);
                 setBrews(this.dataManager.get(DATA_BREWS).intValue() + 1);
                 //logger.info("brew");
+                this.world.playSound(this.posX, this.posY, this.posZ, SoundEvents.BLOCK_BREWING_STAND_BREW, SoundCategory.NEUTRAL, 10F, 0.5F, false);
+                Minecraft.getMinecraft().effectRenderer.spawnEffectParticle(EnumParticleTypes.SPELL_INSTANT.getParticleID(), this.posX, this.posY + 5, this.posZ, new Random(69).nextDouble()/8 * (new Random().nextBoolean() ? 1:-1), new Random(69).nextDouble(), new Random(69).nextDouble()/8 * (new Random().nextBoolean() ? 1:-1));
+
             }
             return true;
         }
@@ -131,8 +135,8 @@ public class DruidEntity extends EntityCreature
         this.entityAIRegrow = new EntityAIRegrow(this);
 
         this.tasks.addTask(0, new EntityAISwimming(this));
-        this.tasks.addTask(5, new EntityAIMoveTowardsRestriction(this, 0.5D));
-        this.tasks.addTask(5, new EntityAITempt(this, 0.5D, Items.DYE, false));
+        this.tasks.addTask(5, new EntityAIMoveTowardsRestriction(this, 0.8D));
+        this.tasks.addTask(5, new EntityAITempt(this, 0.6D, Items.DYE, false));
         this.tasks.addTask(5, new EntityAIWanderAvoidWater(this, 0.5D));
         this.tasks.addTask(4, this.entityAIPlaceFlowers);
         this.tasks.addTask(4, this.entityAIRegrow);

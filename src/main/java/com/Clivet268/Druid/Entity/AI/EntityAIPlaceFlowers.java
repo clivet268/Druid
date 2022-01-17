@@ -168,8 +168,9 @@ public class EntityAIPlaceFlowers extends EntityAIBase
             if (this.eatingGrassTimer == 4)
             {
                 BlockPos blockpos = new BlockPos(this.grassEaterEntity.posX, this.grassEaterEntity.posY, this.grassEaterEntity.posZ);
-                    BlockPos blockpos1 = blockpos.down();
-                    BlockPos blockpos2 = blockpos.offset(grassEaterEntity.getHorizontalFacing());
+                BlockPos blockpos2 = blockpos.offset(grassEaterEntity.getHorizontalFacing());
+                BlockPos blockpos1 = blockpos2.down();
+
                 if (this.entityWorld.getBlockState(blockpos1).getBlock() == Blocks.GRASS &&
                     this.entityWorld.getBlockState(blockpos).getBlock() == Blocks.AIR)
                     {
