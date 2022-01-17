@@ -21,6 +21,7 @@ public class DruidSoulLight extends BlockBase
         {
             super(name,Material.ROCK, CreativeTabs.DECORATIONS);
             this.setLightOpacity(255);
+            this.setLightLevel(3);
         }
 
         public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos)

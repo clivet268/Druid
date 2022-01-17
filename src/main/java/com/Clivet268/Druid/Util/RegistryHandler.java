@@ -1,6 +1,7 @@
 package com.Clivet268.Druid.Util;
 
 import com.Clivet268.Druid.Block.DruidHeartBlock;
+import com.Clivet268.Druid.Block.DruidSoulLight;
 import com.Clivet268.Druid.Configs;
 import com.Clivet268.Druid.Druid;
 import com.Clivet268.Druid.Entity.DruidEntity;
@@ -42,7 +43,7 @@ public class RegistryHandler {
     //Blocks
     public static ArrayList<Block> BLOCKS = new ArrayList<>();
     public static final Block DRUID_HEART = new DruidHeartBlock("druid_heart");
-    public static final Block DRUID_SOUL_LIGHT = new DruidHeartBlock("druid_soul_light");
+    public static final Block DRUID_SOUL_LIGHT = new DruidSoulLight("druid_soul_light");
     @SubscribeEvent
     public static void registerBlocks(RegistryEvent.Register<Block> event)
     {

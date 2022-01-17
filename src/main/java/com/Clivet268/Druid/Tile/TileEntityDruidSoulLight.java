@@ -1,6 +1,7 @@
 package com.Clivet268.Druid.Tile;
 
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.EntityLiving;
+import net.minecraft.init.MobEffects;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.play.server.SPacketUpdateTileEntity;
 import net.minecraft.potion.Potion;
@@ -17,12 +18,14 @@ import java.util.List;
 public class TileEntityDruidSoulLight extends TileEntity implements ITickable
 {
     @Nullable
-    private Potion primaryEffect;
+    private Potion primaryEffect = MobEffects.REGENERATION;
     public void update()
     {
         if (this.world.getTotalWorldTime() % 80L == 0L)
         {
             this.updateBeacon();
+
+            System.out.println("yeeteete");
         }
     }
 
@@ -41,12 +44,12 @@ public class TileEntityDruidSoulLight extends TileEntity implements ITickable
             int k = this.pos.getX();
             int l = this.pos.getY();
             int i1 = this.pos.getZ();
-            AxisAlignedBB axisalignedbb = (new AxisAlignedBB((double)k, (double)l, (double)i1, (double)(k + 1), (double)(l + 1), (double)(i1 + 1))).grow(60).expand(0.0D, (double)this.world.getHeight(), 0.0D);
-            List<EntityPlayer> list = this.world.<EntityPlayer>getEntitiesWithinAABB(EntityPlayer.class, axisalignedbb);
+            AxisAlignedBB axisalignedbb = (new AxisAlignedBB((double)k, (double)l, (double)i1, (double)(k + 1), (double)(l + 1), (double)(i1 + 1))).grow(90).expand(0.0D, (double)this.world.getHeight(), 0.0D);
+            List<EntityLiving> list = this.world.<EntityLiving>getEntitiesWithinAABB(EntityLiving.class, axisalignedbb);
 
-            for (EntityPlayer entityplayer : list)
+            for (EntityLiving entityplayer : list)
             {
-                entityplayer.addPotionEffect(new PotionEffect(this.primaryEffect, 80, 0, true, true));
+                entityplayer.addPotionEffect(new PotionEffect(this.primaryEffect, 180, 1, true, true));
             }
         }
     }

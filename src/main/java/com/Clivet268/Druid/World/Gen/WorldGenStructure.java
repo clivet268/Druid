@@ -51,4 +51,5 @@ public class WorldGenStructure extends WorldGenerator implements IStructure {
 
 
     }
+
 }

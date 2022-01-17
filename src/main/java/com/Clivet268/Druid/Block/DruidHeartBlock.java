@@ -28,7 +28,8 @@ public class DruidHeartBlock extends BlockBase
         public DruidHeartBlock(String name)
         {
             super(name,Material.ROCK, CreativeTabs.DECORATIONS);
-            this.setLightOpacity(4);
+            this.setLightOpacity(255);
+            this.setLightLevel(3);
         }
 
         public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos)
