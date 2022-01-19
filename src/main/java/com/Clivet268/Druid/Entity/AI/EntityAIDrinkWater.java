@@ -7,6 +7,8 @@ import net.minecraft.entity.ai.EntityAIBase;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.math.BlockPos;
 
+import java.util.Random;
+
 import static net.minecraft.block.BlockCauldron.LEVEL;
 
 //TODO make constant
@@ -23,7 +25,7 @@ public class EntityAIDrinkWater extends EntityAIBase {
     @Override
     public boolean shouldExecute() {
         this.got=false;
-        BlockPos nerwater = this.findBlockRegrow(7);
+        BlockPos nerwater = this.findWater(7);
         if (nerwater != null) {
             this.bebpos = nerwater;
             return this.druid.getRNG().nextInt(400) == 0
@@ -69,7 +71,7 @@ public class EntityAIDrinkWater extends EntityAIBase {
     @Override
     public void tick() {
         //logger.info("yeeit");
-        if (this.druid.getDistanceSq(bebpos) < 2.0D) {
+        if (this.druid.getDistanceSq(bebpos) < 9.0D) {
             if (this.druid.shouldCollectWater()) {
                 IBlockState iblockstate = this.druid.world.getBlockState(bebpos);
                 Block block = iblockstate.getBlock();
@@ -95,28 +97,27 @@ public class EntityAIDrinkWater extends EntityAIBase {
     }
 
 
-        public BlockPos findBlockRegrow(int range) {
-            for (int x = -range; x <= range; x++) {
-                for (int y = -range; y <= range; y++) {
-                    for (int z = -range; z <= range; z++) {
-                        BlockPos entityPos = new BlockPos(druid).add(x, y, z);
-                        IBlockState iblockstate = this.druid.world.getBlockState(entityPos).getBlock().getDefaultState();
-                        Block block = iblockstate.getBlock();
-                        if (block == Blocks.WATER) {
-                            this.bebpos =null;
-                            //logger.info("teeyy");
-                            return entityPos;
-                        } else if (block == Blocks.CAULDRON) {
-                            if (this.druid.world.getBlockState(entityPos).get(LEVEL) >= 1) {
-                                if (iblockstate.get(LEVEL) < 3) {
-                                    return entityPos;
-                                }
-                            }
-                        }
+        public BlockPos findWater(int range) {
+        for (int i = 100; i > 0; i--) {
+            int x = new Random(range * 2L).nextInt() - range;
+            int y = new Random(range / 6 * 2L).nextInt() - range / 6;
+            int z = new Random(range * 2L).nextInt() - range;
+            BlockPos entityPos = new BlockPos(druid).add(x, y, z);
+            IBlockState iblockstate = this.druid.world.getBlockState(entityPos);
+            Block block = iblockstate.getBlock();
+            if (block == Blocks.WATER) {
+                this.bebpos = null;
+                //logger.info("teeyy");
+                return entityPos;
+            } else if (block == Blocks.CAULDRON) {
+                if (this.druid.world.getBlockState(entityPos).get(LEVEL) >= 1) {
+                    if (iblockstate.get(LEVEL) < 3) {
+                        //logger.info("teey");
+                        return entityPos;
                     }
                 }
             }
-
-            return null;
         }
+        return null;
+    }
 }

@@ -127,16 +127,15 @@ public class EntityAIRegrow extends EntityAIBase
     }
     public BlockPos findBlockRegrow(int range) {
         BlockPos entityPos = new BlockPos(druid);
+        for(int i = 100; i > 0; i--) {
+            int x = new Random(range * 2L).nextInt() - range;
+            int y = new Random(range/6 * 2L).nextInt() - range/6;
+            int z = new Random(range * 2L).nextInt() - range;
 
-        for (int x = -range; x <= range; x++) {
-            for (int y = -range; y <= range; y++) {
-                for (int z = -range; z <= range; z++) {
-                    if (this.bloks.containsKey(druid.world.getBlockState(entityPos.add(x, y, z)).getBlock())) {
-                        if(this.entityWorld.getBlockState(entityPos.add(x, y, z).up()).getBlock() == Blocks.AIR){
-                            return entityPos.add(x, y, z);
-                        }
+            if (this.bloks.containsKey(druid.world.getBlockState(entityPos.add(x, y, z)).getBlock())) {
+                if (this.entityWorld.getBlockState(entityPos.add(x, y, z).up()).getBlock() == Blocks.AIR) {
+                    return entityPos.add(x, y, z);
 
-                    }
                 }
             }
         }

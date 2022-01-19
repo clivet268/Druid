@@ -49,7 +49,9 @@ public class EntityAIPlaceFlowers extends EntityAIBase
         public void setFloraProbability(){
             Block[] types = new Block[]{
                 Blocks.DANDELION,Blocks.OXEYE_DAISY,Blocks.ORANGE_TULIP,Blocks.PINK_TULIP,Blocks.RED_TULIP,
-                    Blocks.WHITE_TULIP, Blocks.AZURE_BLUET, Blocks.POPPY, Blocks.ALLIUM, Blocks.BLUE_ORCHID};
+                    Blocks.WHITE_TULIP, Blocks.AZURE_BLUET, Blocks.POPPY, Blocks.ALLIUM, Blocks.BLUE_ORCHID,
+                    Blocks.SUNFLOWER, Blocks.PEONY, Blocks.ROSE_BUSH, Blocks.TALL_GRASS, Blocks.OAK_SAPLING,
+            Blocks.GRASS};
 
             for(Block e : types) {
                 IBlockState state = e.getDefaultState();
@@ -67,6 +69,12 @@ public class EntityAIPlaceFlowers extends EntityAIBase
             this.weight[7] = 3;
             this.weight[8] = 28;
             this.weight[9] = 9;
+            this.weight[10] = 2;
+            this.weight[11] = 3;
+            this.weight[12] = 3;
+            this.weight[13] = 3;
+            this.weight[14] = 1;
+            this.weight[15] = 40;
 
 
 
@@ -129,8 +137,8 @@ public class EntityAIPlaceFlowers extends EntityAIBase
             if (this.eatingGrassTimer == 4)
             {
                 BlockPos blockpos = new BlockPos(this.grassEaterEntity.posX, this.grassEaterEntity.posY, this.grassEaterEntity.posZ);
-                    BlockPos blockpos1 = blockpos.down();
                     BlockPos blockpos2 = blockpos.offset(grassEaterEntity.getHorizontalFacing());
+                    BlockPos blockpos1 = blockpos2.down();
                 if (this.entityWorld.getBlockState(blockpos1).getBlock() == Blocks.GRASS &&
                     this.entityWorld.getBlockState(blockpos).getBlock() == Blocks.AIR)
                     {
