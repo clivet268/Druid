@@ -31,7 +31,6 @@ import java.util.function.Function;
 public class RegistryHandler {
 
 
-
     private static List<EntityType> entities = Lists.newArrayList();
     private static List<Item> spawnEggs = Lists.newArrayList();
 
@@ -64,7 +63,7 @@ public class RegistryHandler {
             .setRegistryName(Druid.MODID, "druid_heart");
     public static final Item DRUID_SPAWN_EGG = new ItemSpawnEgg(DRUID_ENTITY, 12992, 21313, (new Item.Properties()).group(ItemGroup.MISC));
 
-    public static void makeSpawnEgg(){
+    public static void makeSpawnEgg() {
         DRUID_SPAWN_EGG.setRegistryName(new ResourceLocation(Druid.MODID, "druid_spawn_egg"));
 
 
@@ -73,7 +72,7 @@ public class RegistryHandler {
     @SubscribeEvent
     public static void registerBlocks(RegistryEvent.Register<Block> event) {
         event.getRegistry().registerAll(
-            DRUID_HEART
+                DRUID_HEART
         );
     }
 
@@ -82,7 +81,7 @@ public class RegistryHandler {
         makeSpawnEgg();
         event.getRegistry().registerAll(
                 DRUID_SPAWN_EGG,
-                createItemBlockForBlock(RegistryHandler.DRUID_HEART,new Item.Properties().group(ItemGroup.DECORATIONS).maxStackSize(64))
+                createItemBlockForBlock(RegistryHandler.DRUID_HEART, new Item.Properties().group(ItemGroup.DECORATIONS).maxStackSize(64))
         );
     }
 
@@ -93,29 +92,27 @@ public class RegistryHandler {
 
     public static SoundEvent ENTITY_DRUID_AMBIENT, ENTITY_DRUID_HURT, ENTITY_DRUID_DEATH;
 
-    public static void registerSounds()
-    {
+    public static void registerSounds() {
         ENTITY_DRUID_AMBIENT = registerSound("entity.druid.ambient");
         ENTITY_DRUID_HURT = registerSound("entity.druid.hurt");
         ENTITY_DRUID_DEATH = registerSound("entity.druid.death");
     }
 
-    private static SoundEvent registerSound(String name)
-    {
+    private static SoundEvent registerSound(String name) {
         ResourceLocation location = new ResourceLocation(Druid.MODID, name);
         SoundEvent event = new SoundEvent(location);
         event.setRegistryName(name);
         ForgeRegistries.SOUND_EVENTS.register(event);
         return event;
     }
+
     @SubscribeEvent
     public static void registerSounds(RegistryEvent.Register<SoundEvent> event) {
         registerSounds();
         event.getRegistry().registerAll(
-                    ENTITY_DRUID_AMBIENT,ENTITY_DRUID_DEATH,ENTITY_DRUID_HURT
-                );
+                ENTITY_DRUID_AMBIENT, ENTITY_DRUID_DEATH, ENTITY_DRUID_HURT
+        );
     }
-
 
 
 }
