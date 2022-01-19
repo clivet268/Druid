@@ -107,7 +107,6 @@ public class EntityAIPlaceFlowers extends Goal
             double z = vec3d.z;
             this.grassEaterEntity.getNavigator().clearPath();
             this.grassEaterEntity.getNavigator().tryMoveToXYZ(x , y, z, 0.5D);
-            //logger.info("yeet");
             this.eatingGrassTimer = 40;
             this.entityWorld.setEntityState(this.grassEaterEntity, (byte)10);
         }
@@ -131,7 +130,6 @@ public class EntityAIPlaceFlowers extends Goal
         public void updateTask()
         {
             this.eatingGrassTimer = Math.max(0, this.eatingGrassTimer - 1);
-            //logger.info("yeet");
             if (this.eatingGrassTimer == 4)
             {
                 BlockPos blockpos = new BlockPos(this.grassEaterEntity.posX, this.grassEaterEntity.posY, this.grassEaterEntity.posZ);
