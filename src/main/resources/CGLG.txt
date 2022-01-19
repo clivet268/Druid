@@ -14,8 +14,20 @@ Blocks Added: Druid Heart(WIP)
 
 Structures Added: Druid Temple(WIP), Druid Well(WIP)
 
-Tile Entities Added: Druid Heart
+Tile Entities Added: Druid Heart(WIP)
 
 Other:
 Druid basic functionality, and regrowth effects/function greatly improved
 Lang Files Updated
+1/8/2022
+Druid V1.0.2 Alpha
+
+Blocks Added: Druid Soul Light(WIP)
+
+Structures Added: Druid Temple Overgrown(WIP), Druid Main Temple(WIP)
+
+Other:
+Druid Temple(WIP) renamed to Druid Hut(WIP)
+Structure generation updated and (in a sense) improved
+Druid AI polished
+
