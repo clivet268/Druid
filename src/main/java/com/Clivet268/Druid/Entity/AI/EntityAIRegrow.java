@@ -121,8 +121,7 @@ public class EntityAIRegrow extends EntityAIBase
 
         }
         else{
-            //System.out.println("AAAAAAAAAA " + this.druid.getNavigator().tryMoveToXYZ(this.nearbysans.getX(), this.nearbysans.getY(), this.nearbysans.getZ(), 0.6) + " " + this.nearbysans);
-            this.druid.getNavigator().tryMoveToXYZ(this.nearbysans.getX(), this.nearbysans.getY(), this.nearbysans.getZ(), 0.6);
+           this.druid.getNavigator().tryMoveToXYZ(this.nearbysans.getX(), this.nearbysans.getY(), this.nearbysans.getZ(), 0.6);
         }
     }
     public BlockPos findBlockRegrow(int range) {
