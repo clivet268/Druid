@@ -1,1 +1,12 @@
 /README.txt
+/changelog.txt
+/CREDITS.txt
+/gradle.properties
+/gradlew
+/gradlew.bat
+/.gradle/
+/.idea/
+/build/
+/gradle/
+/run/
+/src/
