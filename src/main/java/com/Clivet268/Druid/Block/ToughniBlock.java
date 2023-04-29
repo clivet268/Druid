@@ -11,10 +11,10 @@ import net.minecraft.world.server.ServerWorld;
 
 import java.util.Random;
 
-public class DesertBrushBlock extends BushBlock implements IGrowable, net.minecraftforge.common.IShearable {
+public class ToughniBlock extends BushBlock implements IGrowable, net.minecraftforge.common.IShearable {
    protected static final VoxelShape SHAPE = Block.makeCuboidShape(2.0D, 0.0D, 2.0D, 14.0D, 13.0D, 14.0D);
 
-   public DesertBrushBlock() {
+   public ToughniBlock() {
       super(Properties.create(Material.PLANTS));
    }
 

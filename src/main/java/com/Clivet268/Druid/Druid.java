@@ -36,6 +36,7 @@ public class Druid {
         System.out.println("LOADcodeBODEFODEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
         RenderingRegistry.registerEntityRenderingHandler(RegistryHandler.DRUID_ENTITY.get(), DruidRenderFactory.instance);
         RenderTypeLookup.setRenderLayer(RegistryHandler.DESERT_BRUSH.get(), RenderType.getCutout());
+        RenderTypeLookup.setRenderLayer(RegistryHandler.TOUGHNI.get(), RenderType.getCutout());
     }
 
     public void setupCommon(final FMLCommonSetupEvent event) {
