@@ -24,5 +24,14 @@
         "stream": true
       }
     ]
+  },
+  "block.lightning_buzz": {
+    "subtitle": "block.lightning_buzz.sub",
+    "sounds": [
+      {
+        "name": "druid:block/lightning_buzz_0",
+        "stream": true
+      }
+    ]
   }
 }

@@ -1,11 +1,10 @@
 package com.Clivet268.Druid.Util;
 
-import com.Clivet268.Druid.Block.DesertBrushBlock;
-import com.Clivet268.Druid.Block.DruidHeartBlock;
-import com.Clivet268.Druid.Block.ToughniBlock;
+import com.Clivet268.Druid.Block.*;
 import com.Clivet268.Druid.Entity.DruidEntity;
 import com.Clivet268.Druid.Item.BlockItemBase;
 import com.Clivet268.Druid.Particle.LifeParticle;
+import com.mojang.datafixers.util.Pair;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.command.impl.DeOpCommand;
@@ -16,6 +15,7 @@ import net.minecraft.particles.BasicParticleType;
 import net.minecraft.particles.ParticleType;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
+import net.minecraft.util.Tuple;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.biome.Biomes;
 import net.minecraftforge.client.event.ParticleFactoryRegisterEvent;
@@ -28,10 +28,13 @@ import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
+import org.spongepowered.asm.mixin.injection.At;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import static com.Clivet268.Druid.Block.Attribute.*;
 import static com.Clivet268.Druid.Druid.MODID;
 
 @Mod.EventBusSubscriber(modid = MODID, bus = Mod.EventBusSubscriber.Bus.MOD) //This line tells forge this class has events we want to listen to, we also tell forge we want to listen to the Mod bus. (This is new in 1.13)
@@ -75,6 +78,7 @@ public class RegistryHandler {
         ENTITY_DRUID_AMBIENT = registerSound("entity.druid.ambient");
         ENTITY_DRUID_HURT = registerSound("entity.druid.hurt");
         ENTITY_DRUID_DEATH = registerSound("entity.druid.death");
+        LIGHTNING_BUZZ = registerSound("block.lightning_buzz");
     }
 
     private static SoundEvent registerSound(String name)
@@ -89,7 +93,7 @@ public class RegistryHandler {
     public static void registerSounds(RegistryEvent.Register<SoundEvent> event) {
         registerSounds();
         event.getRegistry().registerAll(
-                    ENTITY_DRUID_AMBIENT,ENTITY_DRUID_DEATH,ENTITY_DRUID_HURT
+                    ENTITY_DRUID_AMBIENT,ENTITY_DRUID_DEATH,ENTITY_DRUID_HURT,LIGHTNING_BUZZ
                 );
     }
 
@@ -109,6 +113,5 @@ public class RegistryHandler {
             biome.getSpawns(EntityClassification.CREATURE).add(new Biome.SpawnListEntry(DRUID_ENTITY.get(), 2, 2, 3));
         }
     }
-
 }
 
