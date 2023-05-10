@@ -57,14 +57,18 @@ public class RegistryHandler {
 
     //Blocks
     public static final RegistryObject<Block> DRUID_HEART = BLOCKS.register("druid_heart", DruidHeartBlock::new);
-    public static final RegistryObject<Block> DESERT_BRUSH = BLOCKS.register("desert_brush", DesertBrushBlock::new);
-    public static final RegistryObject<Block> TOUGHNI = BLOCKS.register("toughni", ToughniBlock::new);
+    public static final RegistryObject<Block> DESERT_BRUSH = BLOCKS.register("desert_brush", BaseBushBlock::new);
+    public static final RegistryObject<Block> ACRA = BLOCKS.register("acra", BaseBushBlock::new);
+    public static final RegistryObject<Block> TOUGHNI = BLOCKS.register("toughni", BaseBushBlock::new);
 
     //Block Items
     public static final RegistryObject<Item> DRUID_HEART_ITEM = ITEMS.register("druid_heart", () -> new BlockItemBase(DRUID_HEART.get()));
     public static final RegistryObject<Item> DESERT_BRUSH_ITEM = ITEMS.register("desert_brush", () -> new BlockItemBase(DESERT_BRUSH.get()));
     public static final RegistryObject<Item> TOUGHNI_ITEM = ITEMS.register("toughni", () -> new BlockItemBase(TOUGHNI.get()));
-    public static SoundEvent ENTITY_DRUID_AMBIENT, ENTITY_DRUID_HURT, ENTITY_DRUID_DEATH;
+    public static final RegistryObject<Item> ACRA_ITEM = ITEMS.register("acra", () -> new BlockItemBase(ACRA.get()));
+    public static SoundEvent ENTITY_DRUID_AMBIENT, ENTITY_DRUID_HURT, ENTITY_DRUID_DEATH, LIGHTNING_BUZZ;
+
+
 
     public static void registerSounds()
     {
