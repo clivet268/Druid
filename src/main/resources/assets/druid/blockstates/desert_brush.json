@@ -1,5 +1,7 @@
 {
-    "variants": {
-        "": { "model": "druid:block/desert_brush" }
+  "variants": {
+    "": {
+      "model": "druid:block/desert_brush"
     }
+  }
 }

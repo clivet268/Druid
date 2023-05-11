@@ -1,11 +1,11 @@
-modLoader="javafml"
-loaderVersion="[28,)"
+modLoader = "javafml"
+loaderVersion = "[28,)"
 
 [[mods]]
-modId="druid"
-version="${version}"
-displayName="Druid"
-authors="Clivet268"
-description='''
+modId = "druid"
+version = "${version}"
+displayName = "Druid"
+authors = "Clivet268"
+description = '''
     
     '''

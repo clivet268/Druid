@@ -1,45 +1,41 @@
 package com.Clivet268.Druid.Particle;
 
-import com.Clivet268.Druid.Druid;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.particle.*;
-import net.minecraft.client.renderer.BufferBuilder;
-import net.minecraft.entity.Entity;
 import net.minecraft.particles.BasicParticleType;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
-import javax.annotation.Nullable;
-
 import static com.Clivet268.Druid.Druid.MODID;
 
 @OnlyIn(Dist.CLIENT)
-public class LifeParticle extends SpriteTexturedParticle{
+public class LifeParticle extends SpriteTexturedParticle {
     private final Vec3d target;
     private float rot;
-    public enum LifeType{
+
+    public enum LifeType {
         REGROWTH("regrow"),
         NEW_GROWTH("new_growth"),
         GROW("grow");
         private final String names;
+
         LifeType(String name) {
-            this.names=name;
+            this.names = name;
         }
-        public String getParticleName()
-        {
+
+        public String getParticleName() {
             return this.names;
         }
     }
+
     public LifeType ttype;
 
     public static final ResourceLocation REGROW = new ResourceLocation(MODID, "particles/regrow");
 
     public LifeParticle(World world, double x, double y, double z, double vx, double vy, double vz, LifeType teype) {
-        this(world, x, y, z, vx, vy, vz, 1.0F,teype);
+        this(world, x, y, z, vx, vy, vz, 1.0F, teype);
     }
 
     public LifeParticle(World world, double x, double y, double z, double vx, double vy, double vz, float scale, LifeType teype) {
@@ -61,7 +57,6 @@ public class LifeParticle extends SpriteTexturedParticle{
         this.ttype = teype;
 
 
-
         //this.sprite = Minecraft.getInstance().textureManager.getTexture().getSprite(REGROW);
 
     }
@@ -77,7 +72,7 @@ public class LifeParticle extends SpriteTexturedParticle{
         }
         this.move(this.motionX, this.motionY, this.motionZ);
 
-        this.motionY+= 0.0001D / (((double)this.age)/4.5D);
+        this.motionY += 0.0001D / (((double) this.age) / 4.5D);
 
         if (this.onGround) {
             this.motionX *= 0.699999988079071D;
@@ -105,7 +100,6 @@ public class LifeParticle extends SpriteTexturedParticle{
     public int getBrightnessForRender(float partialTicks) {
         return 240 | 240 << 16;
     }
-
 
 
     @OnlyIn(Dist.CLIENT)

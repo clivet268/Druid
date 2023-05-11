@@ -1,5 +1,7 @@
 {
-    "variants": {
-        "": { "model": "druid:block/toughni" }
+  "variants": {
+    "": {
+      "model": "druid:block/toughni"
     }
+  }
 }

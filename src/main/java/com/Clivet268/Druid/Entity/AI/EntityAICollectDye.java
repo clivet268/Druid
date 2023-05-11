@@ -11,8 +11,8 @@ import java.util.Random;
 //TODO make constant
 public class EntityAICollectDye extends Goal {
     private final DruidEntity druid;
-    public BlockPos bebpos =null;
-    private boolean got =false;
+    public BlockPos bebpos = null;
+    private boolean got = false;
 
     public EntityAICollectDye(DruidEntity ocelotIn) {
         super();
@@ -21,7 +21,7 @@ public class EntityAICollectDye extends Goal {
 
     @Override
     public boolean shouldExecute() {
-        this.got=false;
+        this.got = false;
         BlockPos nerwater = this.findWater(9);
         if (nerwater != null) {
             this.bebpos = nerwater;
@@ -42,10 +42,10 @@ public class EntityAICollectDye extends Goal {
         this.druid.getNavigator().clearPath();
         this.bebpos = null;
     }
+
     @Override
-    public boolean shouldContinueExecuting()
-    {
-        if(this.got){
+    public boolean shouldContinueExecuting() {
+        if (this.got) {
             return false;
         }
         Block block = this.druid.world.getBlockState(this.bebpos).getBlock();
@@ -56,8 +56,8 @@ public class EntityAICollectDye extends Goal {
 
     @Override
     public void tick() {
-        if (this.druid.getDistanceSq(bebpos.getX(), bebpos.getY(), bebpos.getZ() ) < 9.0D) {
-            if(this.druid.shouldCollectDye()) {
+        if (this.druid.getDistanceSq(bebpos.getX(), bebpos.getY(), bebpos.getZ()) < 9.0D) {
+            if (this.druid.shouldCollectDye()) {
                 BlockState iblockstate = this.druid.world.getBlockState(bebpos);
                 Block block = iblockstate.getBlock();
                 System.out.println("yes");
@@ -68,8 +68,7 @@ public class EntityAICollectDye extends Goal {
                 }
                 this.got = true;
             }
-        }
-        else{
+        } else {
             this.druid.getNavigator().tryMoveToXYZ(bebpos.getX(), bebpos.getY(), bebpos.getZ(), 0.6);
         }
 

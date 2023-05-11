@@ -1,7 +1,7 @@
 {
-    "parent": "block/cross",
-    "textures": {
-        "particle": "druid:block/acra",
-        "cross": "druid:block/acra"
-    }
+  "parent": "block/cross",
+  "textures": {
+    "particle": "druid:block/acra",
+    "cross": "druid:block/acra"
+  }
 }

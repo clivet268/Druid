@@ -12,8 +12,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 
 import java.util.Random;
 
-public class TileEntityDruidHeart extends TileEntity implements ITickableTileEntity
-{
+public class TileEntityDruidHeart extends TileEntity implements ITickableTileEntity {
     public int tickCount;
     public float pageFlip;
     public float pageFlipPrev;
@@ -33,42 +32,35 @@ public class TileEntityDruidHeart extends TileEntity implements ITickableTileEnt
         super(tileEntityTypeIn);
     }
 
-    public void tick()
-    {
+    public void tick() {
         this.bookSpreadPrev = this.bookSpread;
         this.bookRotationPrev = this.bookRotation;
-        PlayerEntity entityplayer = this.world.getClosestPlayer((float)this.pos.getX() + 0.5F, (float)this.pos.getY() + 0.5F, (float)this.pos.getZ() + 0.5F, 3.0D, false);
+        PlayerEntity entityplayer = this.world.getClosestPlayer((float) this.pos.getX() + 0.5F, (float) this.pos.getY() + 0.5F, (float) this.pos.getZ() + 0.5F, 3.0D, false);
 
 
-        while (this.bookRotation >= (float)Math.PI)
-        {
-            this.bookRotation -= ((float)Math.PI * 2F);
+        while (this.bookRotation >= (float) Math.PI) {
+            this.bookRotation -= ((float) Math.PI * 2F);
         }
 
-        while (this.bookRotation < -(float)Math.PI)
-        {
-            this.bookRotation += ((float)Math.PI * 2F);
+        while (this.bookRotation < -(float) Math.PI) {
+            this.bookRotation += ((float) Math.PI * 2F);
         }
 
-        while (this.tRot >= (float)Math.PI)
-        {
-            this.tRot -= ((float)Math.PI * 2F);
+        while (this.tRot >= (float) Math.PI) {
+            this.tRot -= ((float) Math.PI * 2F);
         }
 
-        while (this.tRot < -(float)Math.PI)
-        {
-            this.tRot += ((float)Math.PI * 2F);
+        while (this.tRot < -(float) Math.PI) {
+            this.tRot += ((float) Math.PI * 2F);
         }
 
         float f2;
 
-        for (f2 = this.tRot - this.bookRotation; f2 >= (float)Math.PI; f2 -= ((float)Math.PI * 2F))
-        {
+        for (f2 = this.tRot - this.bookRotation; f2 >= (float) Math.PI; f2 -= ((float) Math.PI * 2F)) {
         }
 
-        while (f2 < -(float)Math.PI)
-        {
-            f2 += ((float)Math.PI * 2F);
+        while (f2 < -(float) Math.PI) {
+            f2 += ((float) Math.PI * 2F);
         }
 
         this.bookRotation += f2 * 0.4F;
@@ -83,8 +75,7 @@ public class TileEntityDruidHeart extends TileEntity implements ITickableTileEnt
     }
 
     @OnlyIn(Dist.CLIENT)
-    public boolean shouldRenderFace(Direction p_184313_1_)
-    {
+    public boolean shouldRenderFace(Direction p_184313_1_) {
         return true;
     }
 

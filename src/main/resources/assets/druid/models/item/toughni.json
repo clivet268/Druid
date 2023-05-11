@@ -1,6 +1,6 @@
 {
   "parent": "item/generated",
   "textures": {
-    "layer0": "druid:block/desert_brush"
+    "layer0": "druid:block/toughni"
   }
 }

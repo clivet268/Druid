@@ -6,7 +6,6 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.ai.goal.Goal;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Vec3d;
 
 import java.util.Random;
 
@@ -15,8 +14,8 @@ import static net.minecraft.block.CauldronBlock.LEVEL;
 //TODO make constant
 public class EntityAIDrinkWater extends Goal {
     private final DruidEntity druid;
-    public BlockPos bebpos =null;
-    private boolean got =false;
+    public BlockPos bebpos = null;
+    private boolean got = false;
 
     public EntityAIDrinkWater(DruidEntity ocelotIn, double p_i45315_2_) {
         super();
@@ -25,7 +24,7 @@ public class EntityAIDrinkWater extends Goal {
 
     @Override
     public boolean shouldExecute() {
-        this.got=false;
+        this.got = false;
         BlockPos nerwater = this.findBlockRegrow(7);
         if (nerwater != null) {
             this.bebpos = nerwater;
@@ -46,26 +45,23 @@ public class EntityAIDrinkWater extends Goal {
         this.druid.getNavigator().clearPath();
         this.bebpos = null;
     }
+
     @Override
-    public boolean shouldContinueExecuting()
-    {
-        if(this.got){
+    public boolean shouldContinueExecuting() {
+        if (this.got) {
             return false;
         }
         Block block = this.druid.world.getBlockState(this.bebpos).getBlock();
-     if (block == Blocks.CAULDRON) {
-         BlockState iBlockState = block.getDefaultState();
-        if (this.druid.world.getBlockState(bebpos).get(LEVEL) >= 1) {
-            if (iBlockState.get(LEVEL) < 3) {
-                return true;
+        if (block == Blocks.CAULDRON) {
+            BlockState iBlockState = block.getDefaultState();
+            if (this.druid.world.getBlockState(bebpos).get(LEVEL) >= 1) {
+                return iBlockState.get(LEVEL) < 3;
             }
-        }
-        return false;
-    }
-     else {
+            return false;
+        } else {
 
-         return block==Blocks.WATER;
-     }
+            return block == Blocks.WATER;
+        }
 
     }
 
@@ -90,36 +86,35 @@ public class EntityAIDrinkWater extends Goal {
                     this.got = true;
                 }
             }
-        }
-        else{
+        } else {
             this.druid.getNavigator().tryMoveToXYZ(bebpos.getX(), bebpos.getY(), bebpos.getZ(), 0.6);
         }
 
     }
 
 
-        public BlockPos findBlockRegrow(int range) {
-            for (int i = 100; i > 0; i--) {
-                int x = new Random().nextInt(range * 2) - range;
-                int y = new Random().nextInt(range * 2) - range;
-                int z = new Random().nextInt(range * 2) - range;
-                BlockPos entityPos = new BlockPos(druid).add(x, y, z);
-                BlockState iblockstate = this.druid.world.getBlockState(entityPos);
-                Block block = iblockstate.getBlock();
-                if (block == Blocks.WATER) {
-                    this.bebpos = null;
-                    //logger.info("teeyy");
-                    return entityPos;
-                } else if (block == Blocks.CAULDRON) {
-                    if (this.druid.world.getBlockState(entityPos).get(LEVEL) >= 1) {
-                        if (iblockstate.get(LEVEL) < 3) {
-                            //logger.info("teey");
-                            return entityPos;
-                        }
+    public BlockPos findBlockRegrow(int range) {
+        for (int i = 100; i > 0; i--) {
+            int x = new Random().nextInt(range * 2) - range;
+            int y = new Random().nextInt(range * 2) - range;
+            int z = new Random().nextInt(range * 2) - range;
+            BlockPos entityPos = new BlockPos(druid).add(x, y, z);
+            BlockState iblockstate = this.druid.world.getBlockState(entityPos);
+            Block block = iblockstate.getBlock();
+            if (block == Blocks.WATER) {
+                this.bebpos = null;
+                //logger.info("teeyy");
+                return entityPos;
+            } else if (block == Blocks.CAULDRON) {
+                if (this.druid.world.getBlockState(entityPos).get(LEVEL) >= 1) {
+                    if (iblockstate.get(LEVEL) < 3) {
+                        //logger.info("teey");
+                        return entityPos;
                     }
                 }
             }
-
-            return null;
         }
+
+        return null;
+    }
 }

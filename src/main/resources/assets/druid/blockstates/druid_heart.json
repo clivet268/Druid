@@ -1,6 +1,5 @@
 {
-  "variants":
-  {
+  "variants": {
     "": {
       "model": "druid:block/druid_heart"
     }

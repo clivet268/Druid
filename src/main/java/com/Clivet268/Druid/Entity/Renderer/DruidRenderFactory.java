@@ -1,6 +1,5 @@
 package com.Clivet268.Druid.Entity.Renderer;
 
-import com.Clivet268.Druid.Druid;
 import com.Clivet268.Druid.Entity.DruidEntity;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererManager;

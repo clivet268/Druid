@@ -7,5 +7,3 @@ Other:
 Druid mod ported up to 1.15.2
 Made the druid less dumb
 Druid spawning added (temporary)
-
-testt

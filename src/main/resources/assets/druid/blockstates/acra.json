@@ -1,5 +1,7 @@
 {
-    "variants": {
-        "": { "model": "druid:block/acra" }
+  "variants": {
+    "": {
+      "model": "druid:block/acra"
     }
+  }
 }

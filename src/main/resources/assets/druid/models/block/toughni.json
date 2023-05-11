@@ -1,7 +1,7 @@
 {
-    "parent": "block/cross",
-    "textures": {
-        "particle": "druid:block/toughni",
-        "cross": "druid:block/toughni"
-    }
+  "parent": "block/cross",
+  "textures": {
+    "particle": "druid:block/toughni",
+    "cross": "druid:block/toughni"
+  }
 }

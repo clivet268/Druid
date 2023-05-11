@@ -60,24 +60,21 @@ public class EntityAIPassiveGrow extends Goal {
     public void tick() {
         //logger.info("yeeit");
         if (this.druid.getDistanceSq(bebpos.getX(), bebpos.getY(), bebpos.getZ()) < 9.0D) {
-                BlockState iblockstate = this.druid.world.getBlockState(bebpos);
-                this.druid.getNavigator().clearPath();
-                IGrowable igrowable = (IGrowable)iblockstate.getBlock();
-                if (igrowable.canGrow(this.druid.world, bebpos, iblockstate, this.druid.world.isRemote))
-                {
-                    if(this.druid.world instanceof ServerWorld) {
-                        igrowable.grow((ServerWorld)this.druid.world, this.druid.world.rand, bebpos, iblockstate);
-                    }
-
-                    if (!this.druid.world.isRemote)
-                    {
-                        this.druid.world.playEvent(2005, bebpos.add(0,1,0), Block.getStateId(Blocks.GRASS.getDefaultState()));
-                    }
-
+            BlockState iblockstate = this.druid.world.getBlockState(bebpos);
+            this.druid.getNavigator().clearPath();
+            IGrowable igrowable = (IGrowable) iblockstate.getBlock();
+            if (igrowable.canGrow(this.druid.world, bebpos, iblockstate, this.druid.world.isRemote)) {
+                if (this.druid.world instanceof ServerWorld) {
+                    igrowable.grow((ServerWorld) this.druid.world, this.druid.world.rand, bebpos, iblockstate);
                 }
-                this.got = true;
+
+                if (!this.druid.world.isRemote) {
+                    this.druid.world.playEvent(2005, bebpos.add(0, 1, 0), Block.getStateId(Blocks.GRASS.getDefaultState()));
+                }
+
             }
-         else {
+            this.got = true;
+        } else {
             this.druid.getNavigator().tryMoveToXYZ(bebpos.getX(), bebpos.getY(), bebpos.getZ(), 0.6);
         }
 
@@ -90,7 +87,7 @@ public class EntityAIPassiveGrow extends Goal {
             int z = new Random().nextInt(range * 2) - range;
             BlockPos entityPos = new BlockPos(druid).add(x, y, z);
             BlockState iblockstate = this.druid.world.getBlockState(entityPos);
-             if (iblockstate.getBlock() instanceof IGrowable) {
+            if (iblockstate.getBlock() instanceof IGrowable) {
                 this.bebpos = null;
                 return entityPos;
             }

@@ -2,11 +2,8 @@ package com.Clivet268.Druid.Entity;
 
 import com.Clivet268.Druid.Entity.AI.*;
 import com.Clivet268.Druid.Util.RegistryHandler;
-import net.minecraft.command.arguments.NBTCompoundTagArgument;
 import net.minecraft.entity.*;
-import net.minecraft.entity.ai.*;
 import net.minecraft.entity.ai.goal.*;
-import net.minecraft.entity.player.PlayerAbilities;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.DyeItem;
 import net.minecraft.item.Item;
@@ -31,8 +28,7 @@ import net.minecraftforge.common.Tags;
 
 import javax.annotation.Nullable;
 
-public class DruidEntity extends CreatureEntity
-{
+public class DruidEntity extends CreatureEntity {
 
     private EntityAIPlaceFlowers entityAIPlaceFlowers;
     private EntityAIRegrow entityAIRegrow;
@@ -48,63 +44,63 @@ public class DruidEntity extends CreatureEntity
         super(RegistryHandler.DRUID_ENTITY.get(), world);
     }
 
-    public DruidEntity(World worldIn)
-
-    {
+    public DruidEntity(World worldIn) {
         super(RegistryHandler.DRUID_ENTITY.get(), worldIn);//RegistryHandler.DRUID_ENTITY,worldIn);
         //this.set(0.9F, 0.9F);
     }
-    public int getWater(){
+
+    public int getWater() {
         return this.dataManager.get(DATA_WATER).intValue();
     }
 
-    public int getDyes(){
+    public int getDyes() {
         return this.dataManager.get(DATA_DYES).intValue();
     }
 
-    public int getBrews(){
+    public int getBrews() {
         return this.dataManager.get(DATA_BREWS).intValue();
     }
 
     public void setBrews(int brews) {
-        this.dataManager.set(DATA_BREWS, (float)brews);
+        this.dataManager.set(DATA_BREWS, (float) brews);
     }
 
     public void setDyes(int dyes) {
-        this.dataManager.set(DATA_DYES, (float)dyes);
+        this.dataManager.set(DATA_DYES, (float) dyes);
     }
 
     public void setWater(int water) {
 
-        this.dataManager.set(DATA_WATER, (float)water);
+        this.dataManager.set(DATA_WATER, (float) water);
         //logger.info("set water");
     }
 
     public boolean shouldCollectWater() {
 
-        if(this.dataManager.get(DATA_WATER).intValue() + this.dataManager.get(DATA_BREWS).intValue() > 10){
-            setWater(16- this.dataManager.get(DATA_BREWS).intValue());
+        if (this.dataManager.get(DATA_WATER).intValue() + this.dataManager.get(DATA_BREWS).intValue() > 10) {
+            setWater(16 - this.dataManager.get(DATA_BREWS).intValue());
             //logger.info("should collect " + false);
             return false;
 
         }
         return true;
     }
+
     public boolean shouldCollectDye() {
-        if(this.dataManager.get(DATA_DYES).intValue() + this.dataManager.get(DATA_BREWS).intValue() > 10){
-            setDyes( 16- this.dataManager.get(DATA_BREWS).intValue());
+        if (this.dataManager.get(DATA_DYES).intValue() + this.dataManager.get(DATA_BREWS).intValue() > 10) {
+            setDyes(16 - this.dataManager.get(DATA_BREWS).intValue());
             return false;
         }
 
         return true;
     }
 
-    public boolean brew(){
+    public boolean brew() {
 
-        if(this.dataManager.get(DATA_WATER).intValue() >=1 && this.dataManager.get(DATA_DYES).intValue() >=1){
-            while(this.dataManager.get(DATA_WATER).intValue() >=1 && this.dataManager.get(DATA_DYES).intValue() >=1) {
+        if (this.dataManager.get(DATA_WATER).intValue() >= 1 && this.dataManager.get(DATA_DYES).intValue() >= 1) {
+            while (this.dataManager.get(DATA_WATER).intValue() >= 1 && this.dataManager.get(DATA_DYES).intValue() >= 1) {
                 setWater(this.dataManager.get(DATA_WATER).intValue() + 1);
-                setDyes(this.dataManager.get(DATA_DYES).intValue() -1);
+                setDyes(this.dataManager.get(DATA_DYES).intValue() - 1);
                 setBrews(this.dataManager.get(DATA_BREWS).intValue() + 1);
                 //logger.info("brew");
             }
@@ -124,16 +120,15 @@ public class DruidEntity extends CreatureEntity
     @Nullable
     @Override
     public ILivingEntityData onInitialSpawn(IWorld worldIn, DifficultyInstance difficultyIn, SpawnReason reason, @Nullable ILivingEntityData spawnDataIn, @Nullable CompoundNBT dataTag) {
-    spawnDataIn = super.onInitialSpawn(worldIn, difficultyIn, reason, spawnDataIn, dataTag);
-     this.setHomePosAndDistance(this.getPosition(), 30);
+        spawnDataIn = super.onInitialSpawn(worldIn, difficultyIn, reason, spawnDataIn, dataTag);
+        this.setHomePosAndDistance(this.getPosition(), 30);
         this.getAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(40.0D);
         this.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.4D);
         return spawnDataIn;
     }
 
     @Override
-    protected void registerGoals()
-    {
+    protected void registerGoals() {
 
         this.entityAIPlaceFlowers = new EntityAIPlaceFlowers(this);
         this.entityAIRegrow = new EntityAIRegrow(this);
@@ -151,38 +146,32 @@ public class DruidEntity extends CreatureEntity
         this.goalSelector.addGoal(3, new EntityAICollectDye(this));
     }
 
-    protected void updateAITasks()
-    {
+    protected void updateAITasks() {
 
         this.actionTimer = this.entityAIPlaceFlowers.getEatingGrassTimer();
         super.updateAITasks();
     }
 
-    public boolean processInteract(PlayerEntity player, Hand hand)
-    {
+    public boolean processInteract(PlayerEntity player, Hand hand) {
         ItemStack itemstack = player.getHeldItem(hand);
 
-            if (!itemstack.isEmpty())
-            {
-                boolean flag = this.handleEating(player, itemstack);
+        if (!itemstack.isEmpty()) {
+            boolean flag = this.handleEating(player, itemstack);
 
-                //logger.info(flag);
-                if (flag)
-                {
-                    if (!player.abilities.isCreativeMode)
-                    {
-                        if(itemstack.getItem() == Items.WATER_BUCKET){
-                            player.setHeldItem(hand, new ItemStack(Items.BUCKET));
-                        }
-                        itemstack.shrink(1);
+            //logger.info(flag);
+            if (flag) {
+                if (!player.abilities.isCreativeMode) {
+                    if (itemstack.getItem() == Items.WATER_BUCKET) {
+                        player.setHeldItem(hand, new ItemStack(Items.BUCKET));
                     }
-
-                    return true;
+                    itemstack.shrink(1);
                 }
-            }
-            else return itemstack.interactWithEntity(player, this, hand);
 
-                return false;
+                return true;
+            }
+        } else return itemstack.interactWithEntity(player, this, hand);
+
+        return false;
 
 
     }
@@ -192,33 +181,29 @@ public class DruidEntity extends CreatureEntity
         return 0;
     }
 
-    protected boolean handleEating(PlayerEntity player, ItemStack stack)
-    {
+    protected boolean handleEating(PlayerEntity player, ItemStack stack) {
         boolean flag = false;
         float f = 0.0F;
         Item item = stack.getItem();
 
-        if (item instanceof DyeItem)
-        {
+        if (item instanceof DyeItem) {
             f = 0.5F;
-            if(this.shouldCollectDye()) {
+            if (this.shouldCollectDye()) {
                 this.setDyes(this.dataManager.get(DATA_DYES).intValue() + 1);
             }
             this.brew();
             flag = true;
         }
-        if (item == Items.WATER_BUCKET)
-        {
+        if (item == Items.WATER_BUCKET) {
             f = 0.3F;
-            if(this.shouldCollectWater()) {
+            if (this.shouldCollectWater()) {
                 this.setWater(this.dataManager.get(DATA_WATER).intValue() + 3);
             }
             this.brew();
             flag = true;
 
         }
-        if (this.getHealth() < this.getMaxHealth() && f > 0.0F)
-        {
+        if (this.getHealth() < this.getMaxHealth() && f > 0.0F) {
             this.heal(f);
 
         }
@@ -235,17 +220,14 @@ public class DruidEntity extends CreatureEntity
     }
 
     @OnlyIn(Dist.CLIENT)
-    public void handleStatusUpdate(byte id)
-    {
-        if (id == 10)
-        {
+    public void handleStatusUpdate(byte id) {
+        if (id == 10) {
             this.actionTimer = 40;
-        }
-        else
-        {
+        } else {
             super.handleStatusUpdate(id);
         }
     }
+
     @Override
     public boolean canDespawn(double distanceToClosestPlayer) {
         return false;
@@ -253,55 +235,43 @@ public class DruidEntity extends CreatureEntity
 
 
     @OnlyIn(Dist.CLIENT)
-    public float getHeadRotationPointY(float p_70894_1_)
-    {
-       if(this.actionTimer <=36 &&this.actionTimer >=0){
-           return 1.0f;
-       }
-       else{
-           return  0.0f;
-       }
+    public float getHeadRotationPointY(float p_70894_1_) {
+        if (this.actionTimer <= 36 && this.actionTimer >= 0) {
+            return 1.0f;
+        } else {
+            return 0.0f;
+        }
     }
 
     @OnlyIn(Dist.CLIENT)
-    public float getHeadRotationAngleX(float p_70890_1_)
-    {
-        if (this.actionTimer > 4 && this.actionTimer <= 36)
-        {
-            float f = ((float)(this.actionTimer - 4) - p_70890_1_) / 32.0F;
-            return ((float)Math.PI / 5F) + ((float)Math.PI * 7F / 100F) * MathHelper.sin(f * 28.7F);
-        }
-        else
-        {
-
-                return 0;
-
-        }
-    }
-    @OnlyIn(Dist.CLIENT)
-    public float getBodyRotationAngleX(float p_70890_1_)
-    {
-        if (this.actionTimer > 4 && this.actionTimer <= 36)
-        {
-            float f = ((float)(this.actionTimer - 4) - p_70890_1_) / 32.0F;
-            return ((float)Math.PI / 5F) + ((float)Math.PI * 7F / 100F) * MathHelper.sin(f * 28.7F);
-        }
-        else
-        {
+    public float getHeadRotationAngleX(float p_70890_1_) {
+        if (this.actionTimer > 4 && this.actionTimer <= 36) {
+            float f = ((float) (this.actionTimer - 4) - p_70890_1_) / 32.0F;
+            return ((float) Math.PI / 5F) + ((float) Math.PI * 7F / 100F) * MathHelper.sin(f * 28.7F);
+        } else {
 
             return 0;
 
         }
     }
-    public float getArmRotationAngleX(float p_70890_1_)
-    {
-        if (this.actionTimer > 4 && this.actionTimer <= 36)
-        {
-            float f = ((float)(this.actionTimer - 4) - p_70890_1_) / 32.0F;
-            return ((float)Math.PI / 5F) + ((float)Math.PI * 7F / 100F) * MathHelper.sin(f * 28.7F);
+
+    @OnlyIn(Dist.CLIENT)
+    public float getBodyRotationAngleX(float p_70890_1_) {
+        if (this.actionTimer > 4 && this.actionTimer <= 36) {
+            float f = ((float) (this.actionTimer - 4) - p_70890_1_) / 32.0F;
+            return ((float) Math.PI / 5F) + ((float) Math.PI * 7F / 100F) * MathHelper.sin(f * 28.7F);
+        } else {
+
+            return 0;
+
         }
-        else
-        {
+    }
+
+    public float getArmRotationAngleX(float p_70890_1_) {
+        if (this.actionTimer > 4 && this.actionTimer <= 36) {
+            float f = ((float) (this.actionTimer - 4) - p_70890_1_) / 32.0F;
+            return ((float) Math.PI / 5F) + ((float) Math.PI * 7F / 100F) * MathHelper.sin(f * 28.7F);
+        } else {
 
             return 0;
 
@@ -319,27 +289,23 @@ public class DruidEntity extends CreatureEntity
 
 
     @Override
-    protected ResourceLocation getLootTable()
-    {
+    protected ResourceLocation getLootTable() {
         //return RegistryHandler.DRUID;
         return null;
     }
 
     @Override
-    protected SoundEvent getAmbientSound()
-    {
+    protected SoundEvent getAmbientSound() {
         return RegistryHandler.ENTITY_DRUID_AMBIENT;
     }
 
     @Override
-    protected SoundEvent getHurtSound(DamageSource source)
-    {
+    protected SoundEvent getHurtSound(DamageSource source) {
         return RegistryHandler.ENTITY_DRUID_HURT;
     }
 
     @Override
-    protected SoundEvent getDeathSound()
-    {
+    protected SoundEvent getDeathSound() {
         return RegistryHandler.ENTITY_DRUID_DEATH;
     }
 }
