@@ -11,10 +11,11 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.state.BooleanProperty;
-import net.minecraft.state.IntegerProperty;
 import net.minecraft.state.StateContainer;
-import net.minecraft.state.properties.BlockStateProperties;
-import net.minecraft.util.*;
+import net.minecraft.util.ActionResultType;
+import net.minecraft.util.Hand;
+import net.minecraft.util.SoundCategory;
+import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.math.Vec3d;
@@ -31,34 +32,9 @@ import java.util.Random;
 import static com.Clivet268.Druid.Block.Attribute.*;
 import static com.Clivet268.Druid.Util.RegistryHandler.LIGHTNING_BUZZ;
 
-public class WildPlantBlock extends Block {
+public class WildPlantBlock extends BaseBushBlock {
 
-
-    public static final BooleanProperty BEARING = MoreStateProperties.BEARING;
-    protected static final VoxelShape SHAPE = Block.makeCuboidShape(2.0D, 0.0D, 2.0D, 14.0D, 13.0D, 14.0D);
-
-
-    public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
-        return SHAPE;
-    }
-
-
-    Map<Attribute, Double> attributes = new HashMap<>();
-    public WildPlantBlock addAttribute(Attribute attribute, double intin){
-        attributes.put(attribute, intin);
-        return this;
-    };
-
-    public double getValue(Attribute sin){
-        if(this.attributes.containsKey(sin)) {
-            return attributes.get(sin);
-        }
-        return 0;
-    };
-
-
-    public WildPlantBlock(Attribute[] ain, int[] ints) {
-        super(Properties.create(Material.PLANTS).doesNotBlockMovement());
+    public WildPlantBlock(Attribute[] ain, double[] ints) {
         for (int i = 0; i < ain.length; i++) {
             this.addAttribute(ain[i], ints[i]);
         }
@@ -78,7 +54,7 @@ public class WildPlantBlock extends Block {
         double rand = Math.random();
 
         double s = this.getValue(Sticky) - 20;
-        if(s > 0) {
+        if (s > 0) {
             entityIn.setMotionMultiplier(state, new Vec3d(s, s / 5, s));
         }
 
@@ -87,11 +63,11 @@ public class WildPlantBlock extends Block {
 
         double l = this.getValue(Lightning);
         System.out.println(l + " " + rand * 100);
-        if(l >= 0) {
+        if (l >= 0) {
             if ((l / 250) >= rand * 100) {
                 worldIn.playSound(null, pos, LIGHTNING_BUZZ, SoundCategory.BLOCKS, 1.0F, 1.0F);
             }
-            if((l/ 999) >= rand * 100){
+            if ((l / 999) >= rand * 100) {
                 LightningBoltEntity lightningboltentity = new LightningBoltEntity(worldIn, pos.getX(), pos.getY() + 1, pos.getZ(), false);
                 lightningboltentity.rotationYaw = 0.0F;
                 lightningboltentity.rotationPitch = 0.0F;
@@ -116,24 +92,13 @@ public class WildPlantBlock extends Block {
         //TODO
 
     }
-    protected boolean isValidGround(BlockState state, IBlockReader worldIn, BlockPos pos) {
-        Block block = state.getBlock();
-        return block == Blocks.SAND || block == Blocks.RED_SAND || block == Blocks.DIRT || block == Blocks.COARSE_DIRT || block == Blocks.PODZOL;
-    }
-
-    /**
-     * Get the OffsetType for this Block. Determines if the model is rendered slightly offset.
-     */
-    public Block.OffsetType getOffsetType() {
-        return Block.OffsetType.XYZ;
-    }
 
     public ActionResultType onBlockActivated(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult hit) {
         boolean i = state.get(BEARING);
         if (i) {
             int j = 1 + worldIn.rand.nextInt(2);
             spawnAsEntity(worldIn, pos, new ItemStack(Items.SWEET_BERRIES, j));
-            worldIn.playSound((PlayerEntity)null, pos, SoundEvents.ITEM_SWEET_BERRIES_PICK_FROM_BUSH, SoundCategory.BLOCKS, 1.0F, 0.8F + worldIn.rand.nextFloat() * 0.4F);
+            worldIn.playSound(null, pos, SoundEvents.ITEM_SWEET_BERRIES_PICK_FROM_BUSH, SoundCategory.BLOCKS, 1.0F, 0.8F + worldIn.rand.nextFloat() * 0.4F);
             worldIn.setBlockState(pos, state.with(BEARING, Boolean.FALSE), 2);
             return ActionResultType.SUCCESS;
         } else {

@@ -1,11 +1,15 @@
 package com.Clivet268.Druid.Util;
 
-import com.Clivet268.Druid.Block.*;
+import com.Clivet268.Druid.Block.Attribute;
+import com.Clivet268.Druid.Block.BaseBushBlock;
+import com.Clivet268.Druid.Block.DruidHeartBlock;
+import com.Clivet268.Druid.Block.Improsia;
 import com.Clivet268.Druid.Entity.DruidEntity;
 import com.Clivet268.Druid.Item.BlockItemBase;
 import com.Clivet268.Druid.Particle.LifeParticle;
-import com.mojang.datafixers.util.Pair;
+import com.Clivet268.Druid.Tile.ImprosiaTileEntity;
 import net.minecraft.block.Block;
+import net.minecraft.block.Blocks;
 import net.minecraft.client.Minecraft;
 import net.minecraft.command.impl.DeOpCommand;
 import net.minecraft.entity.EntityClassification;
@@ -13,39 +17,35 @@ import net.minecraft.entity.EntityType;
 import net.minecraft.item.Item;
 import net.minecraft.particles.BasicParticleType;
 import net.minecraft.particles.ParticleType;
+import net.minecraft.tileentity.ShulkerBoxTileEntity;
+import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
-import net.minecraft.util.Tuple;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.biome.Biomes;
 import net.minecraftforge.client.event.ParticleFactoryRegisterEvent;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.DeferredWorkQueue;
 import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
-import org.spongepowered.asm.mixin.injection.At;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 import static com.Clivet268.Druid.Block.Attribute.*;
 import static com.Clivet268.Druid.Druid.MODID;
 
-@Mod.EventBusSubscriber(modid = MODID, bus = Mod.EventBusSubscriber.Bus.MOD) //This line tells forge this class has events we want to listen to, we also tell forge we want to listen to the Mod bus. (This is new in 1.13)
+@Mod.EventBusSubscriber(modid = MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
+//This line tells forge this class has events we want to listen to, we also tell forge we want to listen to the Mod bus. (This is new in 1.13)
 //@ObjectHolder(MODID) //We use ObjectHolder to let forge inject the block into our variables, this to make sure when people replace our block we use the correct one.
 public class RegistryHandler {
-   public static final DeferredRegister<SoundEvent> SOUNDS = new DeferredRegister<>(ForgeRegistries.SOUND_EVENTS, MODID);
-   public static final DeferredRegister<Item> ITEMS = new DeferredRegister<>(ForgeRegistries.ITEMS, MODID);
+    public static final DeferredRegister<SoundEvent> SOUNDS = new DeferredRegister<>(ForgeRegistries.SOUND_EVENTS, MODID);
+    public static final DeferredRegister<Item> ITEMS = new DeferredRegister<>(ForgeRegistries.ITEMS, MODID);
     public static final DeferredRegister<Block> BLOCKS = new DeferredRegister<>(ForgeRegistries.BLOCKS, MODID);
     public static final DeferredRegister<EntityType<?>> ENTITIES = new DeferredRegister<>(ForgeRegistries.ENTITIES, MODID);
-   public static final  DeferredRegister<ParticleType<?>> PARTICLES = new DeferredRegister<>(ForgeRegistries.PARTICLE_TYPES, MODID);
+    public static final DeferredRegister<ParticleType<?>> PARTICLES = new DeferredRegister<>(ForgeRegistries.PARTICLE_TYPES, MODID);
 
+    public static final DeferredRegister<TileEntityType<?>> TILES = new DeferredRegister<>(ForgeRegistries.TILE_ENTITIES, MODID);
     public static void init() {
         System.out.println(DeOpCommand.class.getSimpleName() + " cringe");
         SOUNDS.register(FMLJavaModLoadingContext.get().getModEventBus());
@@ -53,7 +53,9 @@ public class RegistryHandler {
         ITEMS.register(FMLJavaModLoadingContext.get().getModEventBus());
         BLOCKS.register(FMLJavaModLoadingContext.get().getModEventBus());
         PARTICLES.register(FMLJavaModLoadingContext.get().getModEventBus());
+        TILES.register(FMLJavaModLoadingContext.get().getModEventBus());
     }
+
     //Entities
     public static final RegistryObject<EntityType<DruidEntity>> DRUID_ENTITY = ENTITIES.register("druid",
             () -> EntityType.Builder.<DruidEntity>create(DruidEntity::new, EntityClassification.MISC).size(0.5F, 0.5F).build("druid"));
@@ -63,42 +65,52 @@ public class RegistryHandler {
     public static final RegistryObject<Block> DESERT_BRUSH = BLOCKS.register("desert_brush", BaseBushBlock::new);
     public static final RegistryObject<Block> ACRA = BLOCKS.register("acra", BaseBushBlock::new);
     public static final RegistryObject<Block> TOUGHNI = BLOCKS.register("toughni", BaseBushBlock::new);
+    public static final RegistryObject<Block> ROQANA = BLOCKS.register("roqana", BaseBushBlock::new);
+    public static final RegistryObject<Block> IMPROSIA = BLOCKS.register("improsia", () -> new Improsia(new Attribute[]{Pure}, new double[]{1.0D}));
 
     //Block Items
     public static final RegistryObject<Item> DRUID_HEART_ITEM = ITEMS.register("druid_heart", () -> new BlockItemBase(DRUID_HEART.get()));
     public static final RegistryObject<Item> DESERT_BRUSH_ITEM = ITEMS.register("desert_brush", () -> new BlockItemBase(DESERT_BRUSH.get()));
     public static final RegistryObject<Item> TOUGHNI_ITEM = ITEMS.register("toughni", () -> new BlockItemBase(TOUGHNI.get()));
     public static final RegistryObject<Item> ACRA_ITEM = ITEMS.register("acra", () -> new BlockItemBase(ACRA.get()));
+    public static final RegistryObject<Item> ROQANA_ITEM = ITEMS.register("roqana", () -> new BlockItemBase(ROQANA.get()));
+    public static final RegistryObject<Item> IMPROSIA_ITEM = ITEMS.register("improsia", () -> new BlockItemBase(IMPROSIA.get()));
+
+
+    //Tile Entities
+    public static final RegistryObject<TileEntityType<ImprosiaTileEntity>> IMPROSIA_TILE =
+            TILES.register("improsia", () -> TileEntityType.Builder.create(ImprosiaTileEntity::new, IMPROSIA.get()).build(null));
+
+    //Sounds
     public static SoundEvent ENTITY_DRUID_AMBIENT, ENTITY_DRUID_HURT, ENTITY_DRUID_DEATH, LIGHTNING_BUZZ;
 
 
-
-    public static void registerSounds()
-    {
+    public static void registerSounds() {
         ENTITY_DRUID_AMBIENT = registerSound("entity.druid.ambient");
         ENTITY_DRUID_HURT = registerSound("entity.druid.hurt");
         ENTITY_DRUID_DEATH = registerSound("entity.druid.death");
         LIGHTNING_BUZZ = registerSound("block.lightning_buzz");
     }
 
-    private static SoundEvent registerSound(String name)
-    {
+    private static SoundEvent registerSound(String name) {
         ResourceLocation location = new ResourceLocation(MODID, name);
         SoundEvent event = new SoundEvent(location);
         event.setRegistryName(name);
         ForgeRegistries.SOUND_EVENTS.register(event);
         return event;
     }
+
     @SubscribeEvent
     public static void registerSounds(RegistryEvent.Register<SoundEvent> event) {
         registerSounds();
         event.getRegistry().registerAll(
-                    ENTITY_DRUID_AMBIENT,ENTITY_DRUID_DEATH,ENTITY_DRUID_HURT,LIGHTNING_BUZZ
-                );
+                ENTITY_DRUID_AMBIENT, ENTITY_DRUID_DEATH, ENTITY_DRUID_HURT, LIGHTNING_BUZZ
+        );
     }
 
     //Particles
     public static final RegistryObject<BasicParticleType> REGROW = PARTICLES.register("regrow", () -> new BasicParticleType(false));
+
     @SubscribeEvent
     public static void registerFactories(ParticleFactoryRegisterEvent evt) {
         Minecraft.getInstance().particles.registerFactory(
