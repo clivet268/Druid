@@ -1,5 +1,4 @@
 {
-
   "entity.druid.hurt": {
     "subtitle": "entity.druid.hurt.sub",
     "sounds": [
@@ -12,8 +11,8 @@
   "entity.druid.ambient": {
     "subtitle": "entity.druid.ambient.sub",
     "sounds": [
-        "druid:entity/druid/ambient_0",
-        "druid:entity/druid/ambient_1"
+      "druid:entity/druid/ambient_0",
+      "druid:entity/druid/ambient_1"
     ]
   },
   "entity.druid.death": {
