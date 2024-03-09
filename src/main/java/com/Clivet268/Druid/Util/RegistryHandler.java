@@ -44,6 +44,8 @@ public class RegistryHandler {
     public static final DeferredRegister<Block> BLOCKS = new DeferredRegister<>(ForgeRegistries.BLOCKS, MODID);
     public static final DeferredRegister<EntityType<?>> ENTITIES = new DeferredRegister<>(ForgeRegistries.ENTITIES, MODID);
     public static final DeferredRegister<ParticleType<?>> PARTICLES = new DeferredRegister<>(ForgeRegistries.PARTICLE_TYPES, MODID);
+    //TODO what style of features management is okay in 1.15? is this the better way or the current using the bus subscriber in druid main
+    public static final DeferredRegister<Feature<?>> FEATURES = new DeferredRegister<>(ForgeRegistries.FEATURES, MODID);
 
     public static final DeferredRegister<TileEntityType<?>> TILES = new DeferredRegister<>(ForgeRegistries.TILE_ENTITIES, MODID);
     public static void init() {
@@ -54,6 +56,7 @@ public class RegistryHandler {
         BLOCKS.register(FMLJavaModLoadingContext.get().getModEventBus());
         PARTICLES.register(FMLJavaModLoadingContext.get().getModEventBus());
         TILES.register(FMLJavaModLoadingContext.get().getModEventBus());
+        //FEATURES.register(FMLJavaModLoadingContext.get().getModEventBus());
     }
 
     //Entities
@@ -107,6 +110,11 @@ public class RegistryHandler {
                 ENTITY_DRUID_AMBIENT, ENTITY_DRUID_DEATH, ENTITY_DRUID_HURT, LIGHTNING_BUZZ
         );
     }
+
+    //TODO this way???
+    //Features
+    //public static final RegistryObject<Feature<?>> DRUID_HUT = FEATURES.register("druid_hut", () -> new RunDownHouseStructure(NoFeatureConfig::deserialize));
+
 
     //Particles
     public static final RegistryObject<BasicParticleType> REGROW = PARTICLES.register("regrow", () -> new BasicParticleType(false));
