@@ -3,10 +3,13 @@ package com.Clivet268.Druid.Block;
 //import com.Clivet268.Druid.Tile.TileEntityDruidHeart;
 //import com.Clivet268.Druid.Util.RegistryHandler;
 
+import com.Clivet268.Druid.Tile.TileEntityDruidHeart;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
+import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.material.Material;
 import net.minecraft.particles.ParticleTypes;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.shapes.IBooleanFunction;
 import net.minecraft.util.math.shapes.ISelectionContext;
@@ -16,24 +19,16 @@ import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.Random;
 import java.util.stream.Stream;
 
-public class DruidHeartBlock extends BlockBase {
+public class DruidHeartBlock extends BlockBase implements ITileEntityProvider {
     public DruidHeartBlock() {
         super(Material.ROCK);
     }
 
-    /*
-    @Override
-    public boolean isFullCube(BlockState state)
-    {
-        return false;
-    }
-
-
-     */
     @OnlyIn(Dist.CLIENT)
     public void animateTick(BlockState stateIn, World worldIn, BlockPos pos, Random rand) {
         super.animateTick(stateIn, worldIn, pos, rand);
@@ -89,11 +84,12 @@ public class DruidHeartBlock extends BlockBase {
     }
 
 
-    //public TileEntity createNewTileEntity(World worldIn, int meta)
-    //{
-    //return new TileEntityDruidHeart(RegistryHandler.);
-    //}
 
 
+    @Nullable
+    @Override
+    public TileEntity createNewTileEntity(IBlockReader worldIn) {
+        return new TileEntityDruidHeart(true);
+    }
 }
 

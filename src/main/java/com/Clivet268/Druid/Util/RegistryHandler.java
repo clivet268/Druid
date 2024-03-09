@@ -8,21 +8,20 @@ import com.Clivet268.Druid.Entity.DruidEntity;
 import com.Clivet268.Druid.Item.BlockItemBase;
 import com.Clivet268.Druid.Particle.LifeParticle;
 import com.Clivet268.Druid.Tile.ImprosiaTileEntity;
+import com.Clivet268.Druid.Tile.TileEntityDruidHeart;
 import net.minecraft.block.Block;
-import net.minecraft.block.Blocks;
 import net.minecraft.client.Minecraft;
-import net.minecraft.command.impl.DeOpCommand;
 import net.minecraft.entity.EntityClassification;
 import net.minecraft.entity.EntityType;
 import net.minecraft.item.Item;
 import net.minecraft.particles.BasicParticleType;
 import net.minecraft.particles.ParticleType;
-import net.minecraft.tileentity.ShulkerBoxTileEntity;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.biome.Biomes;
+import net.minecraft.world.gen.feature.Feature;
 import net.minecraftforge.client.event.ParticleFactoryRegisterEvent;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -32,7 +31,7 @@ import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 
-import static com.Clivet268.Druid.Block.Attribute.*;
+import static com.Clivet268.Druid.Block.Attribute.Pure;
 import static com.Clivet268.Druid.Druid.MODID;
 
 @Mod.EventBusSubscriber(modid = MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
@@ -49,7 +48,6 @@ public class RegistryHandler {
 
     public static final DeferredRegister<TileEntityType<?>> TILES = new DeferredRegister<>(ForgeRegistries.TILE_ENTITIES, MODID);
     public static void init() {
-        System.out.println(DeOpCommand.class.getSimpleName() + " cringe");
         SOUNDS.register(FMLJavaModLoadingContext.get().getModEventBus());
         ENTITIES.register(FMLJavaModLoadingContext.get().getModEventBus());
         ITEMS.register(FMLJavaModLoadingContext.get().getModEventBus());
@@ -84,6 +82,10 @@ public class RegistryHandler {
     public static final RegistryObject<TileEntityType<ImprosiaTileEntity>> IMPROSIA_TILE =
             TILES.register("improsia", () -> TileEntityType.Builder.create(ImprosiaTileEntity::new, IMPROSIA.get()).build(null));
 
+    public static final RegistryObject<TileEntityType<TileEntityDruidHeart>> DRUID_HEART_TILE =
+            TILES.register("druid_heart", () -> TileEntityType.Builder.create(TileEntityDruidHeart::new, DRUID_HEART.get()).build(null));
+
+
     //Sounds
     public static SoundEvent ENTITY_DRUID_AMBIENT, ENTITY_DRUID_HURT, ENTITY_DRUID_DEATH, LIGHTNING_BUZZ;
 
@@ -103,6 +105,7 @@ public class RegistryHandler {
         return event;
     }
 
+    //TODO duplicious
     @SubscribeEvent
     public static void registerSounds(RegistryEvent.Register<SoundEvent> event) {
         registerSounds();

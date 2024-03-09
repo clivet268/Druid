@@ -1,9 +1,14 @@
 package com.Clivet268.Druid.Entity;
 
 import com.Clivet268.Druid.Entity.AI.*;
+import com.Clivet268.Druid.Tile.TileEntityDruidHeart;
 import com.Clivet268.Druid.Util.RegistryHandler;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
 import net.minecraft.entity.*;
 import net.minecraft.entity.ai.goal.*;
+import net.minecraft.entity.boss.WitherEntity;
+import net.minecraft.entity.item.ItemEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.DyeItem;
 import net.minecraft.item.Item;
@@ -18,6 +23,7 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.util.Hand;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.IWorld;
@@ -35,6 +41,8 @@ public class DruidEntity extends CreatureEntity {
     private int actionTimer;
     static Item[] items = new Item[0];
     public static final Ingredient temptItem = Ingredient.fromItems(Tags.Items.DYES.getAllElements().toArray(items));
+
+    public TileEntityDruidHeart heart = null;
 
     private static final DataParameter<Float> DATA_BREWS = EntityDataManager.createKey(DruidEntity.class, DataSerializers.FLOAT);
     private static final DataParameter<Float> DATA_WATER = EntityDataManager.createKey(DruidEntity.class, DataSerializers.FLOAT);
@@ -102,7 +110,6 @@ public class DruidEntity extends CreatureEntity {
                 setWater(this.dataManager.get(DATA_WATER).intValue() + 1);
                 setDyes(this.dataManager.get(DATA_DYES).intValue() - 1);
                 setBrews(this.dataManager.get(DATA_BREWS).intValue() + 1);
-                //logger.info("brew");
             }
             return true;
         }
@@ -181,6 +188,8 @@ public class DruidEntity extends CreatureEntity {
         return 0;
     }
 
+    //TODO the druid does not eat the dye but mehhhh
+    //TODO dyes?
     protected boolean handleEating(PlayerEntity player, ItemStack stack) {
         boolean flag = false;
         float f = 0.0F;
@@ -207,14 +216,6 @@ public class DruidEntity extends CreatureEntity {
             this.heal(f);
 
         }
-
-        /*if (flag)
-        {
-            this.eatingHorse();
-        }
-
-         */
-
 
         return flag;
     }
@@ -278,14 +279,50 @@ public class DruidEntity extends CreatureEntity {
         }
     }
 
-    /*
+    //TODO druids hold grudges
+
+
     @Override
-    public float getEyeHeight()
-    {
-        return 0.725f;
+    public void onDeath(DamageSource cause) {
+        if(heart == null) {
+            //TODO different normal death?
+            super.onDeath(cause);
+        } else {
+            if (!this.removed && !this.dead) {
+                Entity entity = cause.getTrueSource();
+                LivingEntity livingentity = this.getAttackingEntity();
+                if (this.scoreValue >= 0 && livingentity != null) {
+                    livingentity.awardKillScore(this, this.scoreValue, cause);
+                }
+
+                if (entity != null) {
+                    entity.onKillEntity(this);
+                }
+
+                if (this.isSleeping()) {
+                    this.wakeUp();
+                }
+
+                this.dead = true;
+                this.getCombatTracker().reset();
+                if (!this.world.isRemote) {
+                    this.spawnDrops(cause);
+                    this.createWitherRose(livingentity);
+                }
+
+                this.world.setEntityState(this, (byte) 3);
+                this.setPose(Pose.DYING);
+                //TODO what is the 4th param?
+                this.attemptTeleport(heart.getPos().getX(), heart.getPos().getY(), heart.getPos().getZ(), true);
+            }
+        }
+
     }
 
-     */
+
+    //TODO Eye height?
+
+
 
 
     @Override
@@ -307,6 +344,31 @@ public class DruidEntity extends CreatureEntity {
     @Override
     protected SoundEvent getDeathSound() {
         return RegistryHandler.ENTITY_DRUID_DEATH;
+    }
+
+
+//TODO make livingstone
+    //TODO when a druid dies it makes a livingstone
+    protected void createLivingstone(@Nullable LivingEntity p_226298_1_) {
+        if (!this.world.isRemote) {
+            boolean flag = false;
+            if (p_226298_1_ instanceof WitherEntity) {
+                if (net.minecraftforge.event.ForgeEventFactory.getMobGriefingEvent(this.world, this)) {
+                    BlockPos blockpos = new BlockPos(this);
+                    BlockState blockstate = Blocks.WITHER_ROSE.getDefaultState();
+                    if (this.world.isAirBlock(blockpos) && blockstate.isValidPosition(this.world, blockpos)) {
+                        this.world.setBlockState(blockpos, blockstate, 3);
+                        flag = true;
+                    }
+                }
+
+                if (!flag) {
+                    ItemEntity itementity = new ItemEntity(this.world, this.getPosX(), this.getPosY(), this.getPosZ(), new ItemStack(Items.WITHER_ROSE));
+                    this.world.addEntity(itementity);
+                }
+            }
+
+        }
     }
 }
 
