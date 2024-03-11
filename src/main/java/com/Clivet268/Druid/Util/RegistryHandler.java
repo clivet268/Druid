@@ -1,9 +1,7 @@
 package com.Clivet268.Druid.Util;
 
-import com.Clivet268.Druid.Block.Attribute;
-import com.Clivet268.Druid.Block.BaseBushBlock;
-import com.Clivet268.Druid.Block.DruidHeartBlock;
-import com.Clivet268.Druid.Block.Improsia;
+import com.Clivet268.Druid.Block.*;
+import com.Clivet268.Druid.Entity.CastBarrier;
 import com.Clivet268.Druid.Entity.DruidEntity;
 import com.Clivet268.Druid.Item.BlockItemBase;
 import com.Clivet268.Druid.Particle.LifeParticle;
@@ -60,6 +58,9 @@ public class RegistryHandler {
     //Entities
     public static final RegistryObject<EntityType<DruidEntity>> DRUID_ENTITY = ENTITIES.register("druid",
             () -> EntityType.Builder.<DruidEntity>create(DruidEntity::new, EntityClassification.MISC).size(0.5F, 0.5F).build("druid"));
+
+    public static final RegistryObject<EntityType<CastBarrier>> CAST_BARRIER = ENTITIES.register("cast_barrier",
+            () -> EntityType.Builder.<CastBarrier>create(CastBarrier::new, EntityClassification.MISC).size(3F, 1.5F).build("cast_barrier"));
 
     //Blocks
     public static final RegistryObject<Block> DRUID_HEART = BLOCKS.register("druid_heart", DruidHeartBlock::new);
