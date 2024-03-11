@@ -3,7 +3,7 @@
   "entity.druid.druid": "Druid",
   "item.druid.druid_spawn_egg": "Druid Spawn Egg",
   "entity.druid.hurt.sub": "Druid Hurt",
-  "entity.druid.ambient": "Druid Hums",
+  "entity.druid.ambient.sub": "Druid Hums",
   "entity.druid.death.sub": "Druid Dies",
   "block.lightning_buzz.sub": "Bush Buzzes"
 }

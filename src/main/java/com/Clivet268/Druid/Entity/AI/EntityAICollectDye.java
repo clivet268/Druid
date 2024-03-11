@@ -11,7 +11,7 @@ import java.util.Random;
 //TODO make constant
 public class EntityAICollectDye extends Goal {
     private final DruidEntity druid;
-    public BlockPos bebpos = null;
+    public BlockPos goalBlockPos = null;
     private boolean got = false;
 
     public EntityAICollectDye(DruidEntity ocelotIn) {
@@ -19,12 +19,13 @@ public class EntityAICollectDye extends Goal {
         this.druid = ocelotIn;
     }
 
+    //TODO clean?
     @Override
     public boolean shouldExecute() {
         this.got = false;
-        BlockPos nerwater = this.findWater(9);
+        BlockPos nerwater = this.findFlowers(9);
         if (nerwater != null) {
-            this.bebpos = nerwater;
+            this.goalBlockPos = nerwater;
             return this.druid.getRNG().nextInt(350) == 0
                     && this.druid.shouldCollectWater();
         }
@@ -40,7 +41,7 @@ public class EntityAICollectDye extends Goal {
     @Override
     public void resetTask() {
         this.druid.getNavigator().clearPath();
-        this.bebpos = null;
+        this.goalBlockPos = null;
     }
 
     @Override
@@ -48,34 +49,32 @@ public class EntityAICollectDye extends Goal {
         if (this.got) {
             return false;
         }
-        Block block = this.druid.world.getBlockState(this.bebpos).getBlock();
-        return block instanceof FlowerBlock;
-
-
+        return this.druid.world.getBlockState(this.goalBlockPos).getBlock() instanceof FlowerBlock;
     }
 
     @Override
     public void tick() {
-        if (this.druid.getDistanceSq(bebpos.getX(), bebpos.getY(), bebpos.getZ()) < 9.0D) {
+        if (this.druid.getDistanceSq(goalBlockPos.getX(), goalBlockPos.getY(), goalBlockPos.getZ()) < 9.0D) {
             if (this.druid.shouldCollectDye()) {
-                BlockState iblockstate = this.druid.world.getBlockState(bebpos);
+                BlockState iblockstate = this.druid.world.getBlockState(goalBlockPos);
                 Block block = iblockstate.getBlock();
                 System.out.println("yes");
                 this.druid.getNavigator().clearPath();
                 this.druid.setDyes(druid.getDyes() + 1);
                 for (int i = 6 + new Random().nextInt(12); i >= 0; i--) {
-                    //Minecraft.getMinecraft().effectRenderer.spawnEffectParticle(EnumParticleTypes.CRIT_MAGIC.getParticleID(), this.druid.posX, this.druid.posY + 5, this.druid.posZ, new Random(69).nextDouble()/4 * (new Random().nextBoolean() ? 1:-1), new Random(69).nextDouble()/8, new Random(69).nextDouble()/2 * (new Random().nextBoolean() ? 1:-1));
+                    //this.druid.world.addOptionalParticle(new LifeParticle(this.druid.getPosY()));
+                    //EnumParticleTypes.CRIT_MAGIC.getParticleID(), this.druid.posX, this.druid.posY + 5, this.druid.posZ, new Random(69).nextDouble()/4 * (new Random().nextBoolean() ? 1:-1), new Random(69).nextDouble()/8, new Random(69).nextDouble()/2 * (new Random().nextBoolean() ? 1:-1))
                 }
                 this.got = true;
             }
         } else {
-            this.druid.getNavigator().tryMoveToXYZ(bebpos.getX(), bebpos.getY(), bebpos.getZ(), 0.6);
+            this.druid.getNavigator().tryMoveToXYZ(goalBlockPos.getX(), goalBlockPos.getY(), goalBlockPos.getZ(), 0.6);
         }
 
     }
 
 
-    public BlockPos findWater(int range) {
+    public BlockPos findFlowers(int range) {
         for (int i = 100; i > 0; i--) {
             int x = new Random().nextInt(range * 2) - range;
             int y = new Random().nextInt(range * 2) - range;
@@ -84,10 +83,9 @@ public class EntityAICollectDye extends Goal {
             BlockState iblockstate = this.druid.world.getBlockState(entityPos);
             Block block = iblockstate.getBlock();
             if (block instanceof FlowerBlock) {
-                this.bebpos = null;
+                this.goalBlockPos = null;
                 return entityPos;
             } else if (block instanceof DoublePlantBlock && block != Blocks.TALL_GRASS) {
-
                 return entityPos;
             }
         }

@@ -71,12 +71,12 @@ public class Improsia extends WildPlantBlock {
         }
 
 
-        BlockPos lvt_5_1_ = pos.up();
+        BlockPos blockAbovePos = pos.up();
         BlockState lvt_6_1_ = Blocks.GRASS.getDefaultState();
 
         label48:
         for (int lvt_7_1_ = 0; lvt_7_1_ < 128; ++lvt_7_1_) {
-            BlockPos lvt_8_1_ = lvt_5_1_;
+            BlockPos lvt_8_1_ = blockAbovePos;
 
             for (int lvt_9_1_ = 0; lvt_9_1_ < lvt_7_1_ / 16; ++lvt_9_1_) {
                 lvt_8_1_ = lvt_8_1_.add(rand.nextInt(3) - 1, (rand.nextInt(3) - 1) * rand.nextInt(3) / 2, rand.nextInt(3) - 1);

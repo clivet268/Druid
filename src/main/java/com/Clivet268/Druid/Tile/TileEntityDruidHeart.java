@@ -9,7 +9,7 @@ public class TileEntityDruidHeart extends TileEntity implements ITickableTileEnt
 
     //TODO should this be usable by all entities or just the druid entity?
     public DruidEntity bound = null;
-    boolean naturalState = false;
+    boolean naturalState = true;
 
     public TileEntityDruidHeart() {
         super(RegistryHandler.DRUID_HEART_TILE.get());
@@ -29,6 +29,7 @@ public class TileEntityDruidHeart extends TileEntity implements ITickableTileEnt
             originator.heart = this;
             this.naturalState = false;
             this.bound = originator;
+            this.world.addEntity(originator);
         }
         //PlayerEntity entityplayer = this.world.getClosestPlayer((float) this.pos.getX() + 0.5F, (float) this.pos.getY() + 0.5F, (float) this.pos.getZ() + 0.5F, 3.0D, false);
         else if(bound != null){

@@ -1,4 +1,3 @@
-
 package com.Clivet268.Druid.Particle;
 
 import net.minecraft.client.particle.*;
@@ -13,16 +12,16 @@ import static com.Clivet268.Druid.Druid.MODID;
 
 //TODO use the animated or better static one?
 @OnlyIn(Dist.CLIENT)
-public class LifeParticle extends SpriteTexturedParticle {
+public class RevivalParticle extends SpriteTexturedParticle {
     private final Vec3d target;
 
-    public static final ResourceLocation REGROW = new ResourceLocation(MODID, "particles/life");
+    public static final ResourceLocation REGROW = new ResourceLocation(MODID, "particles/regrow");
 
-    public LifeParticle(World world, double x, double y, double z, double vx, double vy, double vz) {
+    public RevivalParticle(World world, double x, double y, double z, double vx, double vy, double vz) {
         this(world, x, y, z, vx, vy, vz, 1.0F);
     }
 
-    public LifeParticle(World world, double x, double y, double z, double vx, double vy, double vz, float scale) {
+    public RevivalParticle(World world, double x, double y, double z, double vx, double vy, double vz, float scale) {
         super(world, x, y, z, 0.0D, 0.0D, 0.0D);
         target = new Vec3d(x, y, z);
         this.motionX *= 0.2;
@@ -31,7 +30,9 @@ public class LifeParticle extends SpriteTexturedParticle {
         this.motionX += vx * 0.4D;
         this.motionY += vy * 0.4D;
         this.motionZ += vz * 0.4D;
-        this.maxAge = 90 + ((int) (rand.nextFloat() * 180F));
+        this.particleRed = this.particleGreen = this.particleBlue = 1.0F;
+        this.particleAlpha = 0F;
+        this.maxAge = 90 + ((int) (rand.nextFloat() * 30F));
         this.maxAge = (int) ((float) this.maxAge * scale);
         this.canCollide = true;
 
@@ -87,7 +88,7 @@ public class LifeParticle extends SpriteTexturedParticle {
 
         public Particle makeParticle(BasicParticleType typeIn, World worldIn, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
 
-            LifeParticle revivalParticle = new LifeParticle(worldIn, x, y, z, xSpeed, ySpeed, zSpeed);
+            RevivalParticle revivalParticle = new RevivalParticle(worldIn, x, y, z, xSpeed, ySpeed, zSpeed);
             revivalParticle.selectSpriteRandomly(this.spriteSet);
             return revivalParticle;
         }

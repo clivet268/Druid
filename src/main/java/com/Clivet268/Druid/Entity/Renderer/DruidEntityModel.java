@@ -15,6 +15,7 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 @OnlyIn(Dist.CLIENT)
+//TODO are these typings necessary
 public class DruidEntityModel<T extends Entity> extends EntityModel<T> implements IHasHead {
     private float headRotationAngleX;
     private float bodyRotationAngleX;

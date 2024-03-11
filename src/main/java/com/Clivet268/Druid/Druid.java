@@ -1,6 +1,8 @@
 package com.Clivet268.Druid;
 
-import com.Clivet268.Druid.Entity.Renderer.DruidRenderFactory;
+import com.Clivet268.Druid.Entity.Renderer.CastBarrierRenderer;
+import com.Clivet268.Druid.Entity.Renderer.DruidHeartRenderer;
+import com.Clivet268.Druid.Entity.Renderer.RenderDruid;
 import com.Clivet268.Druid.Util.RegistryHandler;
 import com.Clivet268.Druid.World.Features.Features;
 import net.minecraft.block.Block;
@@ -20,6 +22,7 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.DeferredWorkQueue;
+import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
@@ -49,12 +52,14 @@ public class Druid {
     }
 
     public void setupClient(final FMLClientSetupEvent event) {
-        System.out.println("LOADcodeBODEFODEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
-        RenderingRegistry.registerEntityRenderingHandler(RegistryHandler.DRUID_ENTITY.get(), DruidRenderFactory.instance);
+        LOGGER.log(Level.INFO, "Hello! - Clivet268");
+        RenderingRegistry.registerEntityRenderingHandler(CAST_BARRIER.get(), CastBarrierRenderer.INSTANCE);
+        RenderingRegistry.registerEntityRenderingHandler(RegistryHandler.DRUID_ENTITY.get(), RenderDruid.INSTANCE);
         RenderTypeLookup.setRenderLayer(RegistryHandler.DESERT_BRUSH.get(), RenderType.getCutout());
         RenderTypeLookup.setRenderLayer(RegistryHandler.TOUGHNI.get(), RenderType.getCutout());
         RenderTypeLookup.setRenderLayer(RegistryHandler.ACRA.get(), RenderType.getCutout());
         RenderTypeLookup.setRenderLayer(ROQANA.get(), RenderType.getCutout());
+        ClientRegistry.bindTileEntityRenderer(DRUID_HEART_TILE.get(), DruidHeartRenderer::new);
     }
 
     public void setupCommon(final FMLCommonSetupEvent event) {
@@ -94,8 +99,6 @@ public class Druid {
             //registers the structures/features.
             //If you don't do this, you'll crash.
             Features.registerFeatures(event);
-
-            LOGGER.log(Level.INFO, "features/structures registered.");
         }
     }
 

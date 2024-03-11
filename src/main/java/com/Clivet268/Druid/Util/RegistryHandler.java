@@ -5,6 +5,7 @@ import com.Clivet268.Druid.Entity.CastBarrier;
 import com.Clivet268.Druid.Entity.DruidEntity;
 import com.Clivet268.Druid.Item.BlockItemBase;
 import com.Clivet268.Druid.Particle.LifeParticle;
+import com.Clivet268.Druid.Particle.RevivalParticle;
 import com.Clivet268.Druid.Tile.ImprosiaTileEntity;
 import com.Clivet268.Druid.Tile.TileEntityDruidHeart;
 import net.minecraft.block.Block;
@@ -68,6 +69,7 @@ public class RegistryHandler {
     public static final RegistryObject<Block> ACRA = BLOCKS.register("acra", BaseBushBlock::new);
     public static final RegistryObject<Block> TOUGHNI = BLOCKS.register("toughni", BaseBushBlock::new);
     public static final RegistryObject<Block> ROQANA = BLOCKS.register("roqana", BaseBushBlock::new);
+    public static final RegistryObject<Block> LIVINGSTONE = BLOCKS.register("livingstone", Livingstone::new);
     public static final RegistryObject<Block> IMPROSIA = BLOCKS.register("improsia", () -> new Improsia(new Attribute[]{Pure}, new double[]{1.0D}));
 
     //Block Items
@@ -77,6 +79,7 @@ public class RegistryHandler {
     public static final RegistryObject<Item> ACRA_ITEM = ITEMS.register("acra", () -> new BlockItemBase(ACRA.get()));
     public static final RegistryObject<Item> ROQANA_ITEM = ITEMS.register("roqana", () -> new BlockItemBase(ROQANA.get()));
     public static final RegistryObject<Item> IMPROSIA_ITEM = ITEMS.register("improsia", () -> new BlockItemBase(IMPROSIA.get()));
+    public static final RegistryObject<Item> LIVINGSTONE_ITEM = ITEMS.register("livingstone", () -> new BlockItemBase(LIVINGSTONE.get()));
 
 
     //Tile Entities
@@ -120,13 +123,17 @@ public class RegistryHandler {
     //public static final RegistryObject<Feature<?>> DRUID_HUT = FEATURES.register("druid_hut", () -> new RunDownHouseStructure(NoFeatureConfig::deserialize));
 
 
+    //TODO???
     //Particles
-    public static final RegistryObject<BasicParticleType> REGROW = PARTICLES.register("regrow", () -> new BasicParticleType(false));
+    public static final RegistryObject<BasicParticleType> REVIVAL = PARTICLES.register("revival", () -> new BasicParticleType(false));
+    public static final RegistryObject<BasicParticleType> LIFE = PARTICLES.register("life", () -> new BasicParticleType(false));
 
     @SubscribeEvent
     public static void registerFactories(ParticleFactoryRegisterEvent evt) {
         Minecraft.getInstance().particles.registerFactory(
-                RegistryHandler.REGROW.get(), LifeParticle.RegrowthFactory::new);
+                RegistryHandler.REVIVAL.get(), RevivalParticle.RegrowthFactory::new);
+        Minecraft.getInstance().particles.registerFactory(
+                RegistryHandler.LIFE.get(), LifeParticle.RegrowthFactory::new);
     }
 
     //TODO remove once structures are properly implemented
