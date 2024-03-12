@@ -42,6 +42,11 @@ public class TileEntityDruidHeart extends TileEntity implements ITickableTileEnt
         this.bound = toBeBound;
     }
 
+    @Override
+    public void remove(){
+        this.bound.heart = null;
+        super.remove();
+    }
     //TODO should render face?
 
 }

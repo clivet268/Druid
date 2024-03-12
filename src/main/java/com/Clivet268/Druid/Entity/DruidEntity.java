@@ -38,6 +38,7 @@ import static com.Clivet268.Druid.Util.RegistryHandler.LIVINGSTONE;
 
 public class DruidEntity extends CreatureEntity {
 
+
     private EntityAIPlaceFlowers entityAIPlaceFlowers;
     private DruidAIRegrow druidAIRegrow;
     private int actionTimer;
@@ -45,6 +46,8 @@ public class DruidEntity extends CreatureEntity {
     public static final Ingredient temptItem = Ingredient.fromItems(Tags.Items.DYES.getAllElements().toArray(items));
 
     public TileEntityDruidHeart heart = null;
+
+    private int reviveTimer = 0;
 
     private static final DataParameter<Float> DATA_BREWS = EntityDataManager.createKey(DruidEntity.class, DataSerializers.FLOAT);
     private static final DataParameter<Float> DATA_WATER = EntityDataManager.createKey(DruidEntity.class, DataSerializers.FLOAT);
@@ -129,7 +132,7 @@ public class DruidEntity extends CreatureEntity {
     @Override
     public ILivingEntityData onInitialSpawn(IWorld worldIn, DifficultyInstance difficultyIn, SpawnReason reason, @Nullable ILivingEntityData spawnDataIn, @Nullable CompoundNBT dataTag) {
         spawnDataIn = super.onInitialSpawn(worldIn, difficultyIn, reason, spawnDataIn, dataTag);
-        this.setHomePosAndDistance(this.getPosition(), 30);
+        this.setHomePosAndDistance(this.getPosition(), 200);
         this.getAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(40.0D);
         this.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.4D);
         return spawnDataIn;
@@ -183,6 +186,22 @@ public class DruidEntity extends CreatureEntity {
         return false;
 
 
+    }
+
+    @Override
+    public void tick(){
+        if(this.reviveTimer > 1){
+
+            this.setPose(Pose.DYING);
+            this.reviveTimer--;
+        } else if(this.reviveTimer == 1){
+            this.setPose(Pose.STANDING);
+            //TODO what is the 4th param?
+            this.attemptTeleport(heart.getPos().getX(), heart.getPos().getY(), heart.getPos().getZ(), true);
+            this.reviveTimer = 0;
+        } else{
+            super.tick();
+        }
     }
 
     @Override
@@ -292,33 +311,19 @@ public class DruidEntity extends CreatureEntity {
             world.setBlockState(this.getPosition(), LIVINGSTONE.get().getDefaultState());
             super.onDeath(cause);
         } else {
-            //TODO different normal death?
             if (!this.removed && !this.dead) {
-                Entity entity = cause.getTrueSource();
+                this.setHealth(40.0F);
                 LivingEntity livingentity = this.getAttackingEntity();
-                if (this.scoreValue >= 0 && livingentity != null) {
-                    livingentity.awardKillScore(this, this.scoreValue, cause);
-                }
-
-                if (entity != null) {
-                    entity.onKillEntity(this);
-                }
 
                 if (this.isSleeping()) {
                     this.wakeUp();
                 }
 
-                this.dead = true;
-                this.getCombatTracker().reset();
                 if (!this.world.isRemote) {
-                    this.spawnDrops(cause);
-                    this.createWitherRose(livingentity);
+                    //this.createWitherRose(livingentity);
                 }
 
-                this.world.setEntityState(this, (byte) 3);
-                this.setPose(Pose.DYING);
-                //TODO what is the 4th param?
-                this.attemptTeleport(heart.getPos().getX(), heart.getPos().getY(), heart.getPos().getZ(), true);
+                this.reviveTimer = 200;
             }
         }
 

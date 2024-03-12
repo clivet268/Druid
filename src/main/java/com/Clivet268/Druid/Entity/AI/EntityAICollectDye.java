@@ -58,7 +58,6 @@ public class EntityAICollectDye extends Goal {
             if (this.druid.shouldCollectDye()) {
                 BlockState iblockstate = this.druid.world.getBlockState(goalBlockPos);
                 Block block = iblockstate.getBlock();
-                System.out.println("yes");
                 this.druid.getNavigator().clearPath();
                 this.druid.setDyes(druid.getDyes() + 1);
                 for (int i = 6 + new Random().nextInt(12); i >= 0; i--) {
