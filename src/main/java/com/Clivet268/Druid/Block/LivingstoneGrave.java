@@ -14,14 +14,9 @@ import java.util.Random;
 
 import static com.Clivet268.Druid.Util.RegistryHandler.LIFE;
 
-//TODO makes up a druids heart and the bindng stone is dropped when a druid dies
-//TODO it is a fungus
-
-/**
- * It is a fungus
- */
-public class Livingstone extends Block {
-    public Livingstone() {
+//TODO makes up a druids heart and the bindng stone is dropped when a druid dies]
+public class LivingstoneGrave extends Block {
+    public LivingstoneGrave() {
         super(Properties.create(Material.ROCK)
                 .harvestLevel(0).lightValue(1)
                 .variableOpacity());

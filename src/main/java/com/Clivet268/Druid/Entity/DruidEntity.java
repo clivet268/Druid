@@ -308,7 +308,7 @@ public class DruidEntity extends CreatureEntity {
         if(heart == null) {
             //TODO propper placement
             //TODO link to the dead druid in some way, name or whatever
-            world.setBlockState(this.getPosition(), LIVINGSTONE.get().getDefaultState());
+            createLivingstoneGrave(this);
             super.onDeath(cause);
         } else {
             if (!this.removed && !this.dead) {
@@ -359,100 +359,18 @@ public class DruidEntity extends CreatureEntity {
 
     //TODO make livingstone
     //TODO when a druid dies it makes a livingstone
-    protected void createLivingstone(@Nullable LivingEntity p_226298_1_) {
-        if (!this.world.isRemote) {
-            boolean flag = false;
-            if (p_226298_1_ instanceof WitherEntity) {
-                if (net.minecraftforge.event.ForgeEventFactory.getMobGriefingEvent(this.world, this)) {
-                    BlockPos blockpos = new BlockPos(this);
-                    BlockState blockstate = Blocks.WITHER_ROSE.getDefaultState();
-                    if (this.world.isAirBlock(blockpos) && blockstate.isValidPosition(this.world, blockpos)) {
-                        this.world.setBlockState(blockpos, blockstate, 3);
-                        flag = true;
-                    }
-                }
-
-                if (!flag) {
-                    ItemEntity itementity = new ItemEntity(this.world, this.getPosX(), this.getPosY(), this.getPosZ(), new ItemStack(Items.WITHER_ROSE));
-                    this.world.addEntity(itementity);
-                }
+    protected void createLivingstoneGrave(@Nullable LivingEntity p_226298_1_) {
+        if (net.minecraftforge.event.ForgeEventFactory.getMobGriefingEvent(this.world, this)) {
+            BlockPos blockpos = new BlockPos(this);
+            BlockState blockstate = RegistryHandler.LIVINGSTONE_GRAVE.get().getDefaultState();
+            if (this.world.isAirBlock(blockpos) && blockstate.isValidPosition(this.world, blockpos)) {
+                this.world.setBlockState(blockpos, blockstate, 3);
+            } else{
+                ItemEntity itementity = new ItemEntity(this.world, this.getPosX(), this.getPosY(), this.getPosZ(), new ItemStack(RegistryHandler.LIVINGSTONE_GRAVE_ITEM.get()));
+                this.world.addEntity(itementity);
             }
-
         }
     }
-
-    //TODO if the druid is going to cast a few spells this might get messy, if it is just one dependent on location
-    // then that might be easier but if those variations are going to be very unique it could still get big quick
-    class DruidAIDefendWithBarrier extends Goal {
-        public BlockPos goalBlockPos = null;
-        private final boolean got = false;
-        World world = null;
-        //TODO naming
-        DruidEntity druidEntity = null;
-
-        private DruidAIDefendWithBarrier(DruidEntity druidEntity) {
-            this.druidEntity = druidEntity;
-            this.world = this.druidEntity.world;
-        }
-
-        protected int getCastingTime() {
-            return 40;
-        }
-
-        protected int getCastingInterval() {
-            return 100;
-        }
-
-        protected void castSpell() {
-            LivingEntity livingentity = druidEntity.getAttackTarget();
-            double d0 = Math.min(livingentity.getPosY(), druidEntity.getPosY());
-            double d1 = Math.max(livingentity.getPosY(), druidEntity.getPosY()) + 1.0D;
-            float f = (float) MathHelper.atan2(livingentity.getPosZ() - druidEntity.getPosZ(), livingentity.getPosX() - druidEntity.getPosX());
-
-            for(int l = 0; l < 16; ++l) {
-                double d2 = 1.25D * (double)(l + 1);
-                this.spawnBarrier(druidEntity.getPosX() + (double)MathHelper.cos(f) * d2, druidEntity.getPosZ() + (double)MathHelper.sin(f) * d2, d0, d1, f, l);
-            }
-
-
-        }
-
-        private void spawnBarrier(double x, double z, double ymin, double ymax, float rotationYaw, int delay) {
-            BlockPos blockpos = new BlockPos(x, ymax, z);
-            boolean flag = false;
-            double d0 = 0.0D;
-
-            while(true) {
-                BlockPos blockpos1 = blockpos.down();
-                BlockState blockstate = world.getBlockState(blockpos1);
-                if (blockstate.isSolidSide(world, blockpos1, Direction.UP)) {
-                    if (!world.isAirBlock(blockpos)) {
-                        BlockState blockstate1 = world.getBlockState(blockpos);
-                        VoxelShape voxelshape = blockstate1.getCollisionShape(world, blockpos);
-                        if (!voxelshape.isEmpty()) {
-                            d0 = voxelshape.getEnd(Direction.Axis.Y);
-                        }
-                    }
-
-                    flag = true;
-                    break;
-                }
-
-                blockpos = blockpos.down();
-                if (blockpos.getY() < MathHelper.floor(ymin) - 1) {
-                    break;
-                }
-            }
-
-            if (flag) {
-                world.addEntity(new CastBarrier(world, x, (double)blockpos.getY() + d0, z, rotationYaw, delay, druidEntity));
-            }
-
-        }
-
-        protected SoundEvent getSpellPrepareSound() {
-            return SoundEvents.ENTITY_EVOKER_PREPARE_ATTACK;
-        }
 
         protected SpellcastingIllagerEntity.SpellType getSpellType() {
             return SpellcastingIllagerEntity.SpellType.FANGS;

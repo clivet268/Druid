@@ -71,7 +71,9 @@ public class RegistryHandler {
     public static final RegistryObject<Block> ROQANA = BLOCKS.register("roqana", BaseBushBlock::new);
     public static final RegistryObject<Block> LIVINGSTONE = BLOCKS.register("livingstone", Livingstone::new);
     public static final RegistryObject<Block> IMPROSIA = BLOCKS.register("improsia", () -> new Improsia(new Attribute[]{Pure}, new double[]{1.0D}));
+    public static final RegistryObject<Block> LIVINGSTONE_GRAVE = BLOCKS.register("livingstone_grave", LivingstoneGrave::new);
 
+    //TODO generate these and have a exclude/special for block items that dont follow the normal pattern
     //Block Items
     public static final RegistryObject<Item> DRUID_HEART_ITEM = ITEMS.register("druid_heart", () -> new BlockItemBase(DRUID_HEART.get()));
     public static final RegistryObject<Item> DESERT_BRUSH_ITEM = ITEMS.register("desert_brush", () -> new BlockItemBase(DESERT_BRUSH.get()));
@@ -80,6 +82,8 @@ public class RegistryHandler {
     public static final RegistryObject<Item> ROQANA_ITEM = ITEMS.register("roqana", () -> new BlockItemBase(ROQANA.get()));
     public static final RegistryObject<Item> IMPROSIA_ITEM = ITEMS.register("improsia", () -> new BlockItemBase(IMPROSIA.get()));
     public static final RegistryObject<Item> LIVINGSTONE_ITEM = ITEMS.register("livingstone", () -> new BlockItemBase(LIVINGSTONE.get()));
+    //TODO keep lore/info about druid that died
+    public static final RegistryObject<Item> LIVINGSTONE_GRAVE_ITEM = ITEMS.register("livingstone_grave", () -> new BlockItemBase(LIVINGSTONE_GRAVE.get()));
 
 
     //Tile Entities
