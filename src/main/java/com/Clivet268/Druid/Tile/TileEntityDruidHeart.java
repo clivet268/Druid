@@ -32,11 +32,6 @@ public class TileEntityDruidHeart extends TileEntity implements ITickableTileEnt
             this.world.addEntity(originator);
         }
         //PlayerEntity entityplayer = this.world.getClosestPlayer((float) this.pos.getX() + 0.5F, (float) this.pos.getY() + 0.5F, (float) this.pos.getZ() + 0.5F, 3.0D, false);
-        else if(bound != null){
-            if(!bound.isAlive()) {
-                bound.revive();
-            }
-        }
     }
     public void bind(DruidEntity toBeBound){
         this.bound = toBeBound;

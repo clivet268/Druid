@@ -9,6 +9,7 @@ import net.minecraft.util.math.BlockPos;
 
 import java.util.Random;
 
+import static com.Clivet268.Druid.Entity.DruidEntity.DATA_DYES;
 import static net.minecraft.block.CauldronBlock.LEVEL;
 
 //TODO make constant
@@ -29,7 +30,7 @@ public class EntityAIDrinkWater extends Goal {
         if (nerwater != null) {
             this.bebpos = nerwater;
             return this.druid.getRNG().nextInt(400) == 0
-                    && this.druid.shouldCollectWater();
+                    && this.druid.shouldCollectResource(DATA_DYES, 20);
         }
         return false;
 
@@ -67,9 +68,8 @@ public class EntityAIDrinkWater extends Goal {
 
     @Override
     public void tick() {
-        //logger.info("yeeit");
         if (this.druid.getDistanceSq(bebpos.getX(), bebpos.getY(), bebpos.getZ()) < 2.0D) {
-            if (this.druid.shouldCollectWater()) {
+            if (this.druid.shouldCollectResource(DATA_DYES, 20)) {
                 BlockState iblockstate = this.druid.world.getBlockState(bebpos);
                 Block block = iblockstate.getBlock();
                 if (block == Blocks.CAULDRON) {

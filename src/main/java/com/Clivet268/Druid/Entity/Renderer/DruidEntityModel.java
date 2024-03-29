@@ -1,4 +1,6 @@
-package com.Clivet268.Druid.Entity.Renderer;// Made with Blockbench 3.7.5
+package com.Clivet268.Druid.Entity.Renderer;
+
+// Made with Blockbench 3.7.5
 // Exported for Minecraft version 1.12
 // Paste this class into your mod and generate all required imports
 

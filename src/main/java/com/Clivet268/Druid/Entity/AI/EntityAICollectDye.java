@@ -7,6 +7,8 @@ import net.minecraft.util.math.BlockPos;
 
 import java.util.Random;
 
+import static com.Clivet268.Druid.Entity.DruidEntity.DATA_DYES;
+
 
 //TODO make constant
 public class EntityAICollectDye extends Goal {
@@ -27,7 +29,8 @@ public class EntityAICollectDye extends Goal {
         if (nerwater != null) {
             this.goalBlockPos = nerwater;
             return this.druid.getRNG().nextInt(350) == 0
-                    && this.druid.shouldCollectWater();
+                    //TODO define max better
+                    && this.druid.shouldCollectResource(DATA_DYES, 20);
         }
         return false;
 
@@ -55,7 +58,7 @@ public class EntityAICollectDye extends Goal {
     @Override
     public void tick() {
         if (this.druid.getDistanceSq(goalBlockPos.getX(), goalBlockPos.getY(), goalBlockPos.getZ()) < 9.0D) {
-            if (this.druid.shouldCollectDye()) {
+            if (this.druid.shouldCollectResource(DATA_DYES, 20)) {
                 BlockState iblockstate = this.druid.world.getBlockState(goalBlockPos);
                 Block block = iblockstate.getBlock();
                 this.druid.getNavigator().clearPath();

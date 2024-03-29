@@ -49,10 +49,10 @@ public class DruidEntity extends CreatureEntity {
 
     private int reviveTimer = 0;
 
-    private static final DataParameter<Float> DATA_BREWS = EntityDataManager.createKey(DruidEntity.class, DataSerializers.FLOAT);
-    private static final DataParameter<Float> DATA_WATER = EntityDataManager.createKey(DruidEntity.class, DataSerializers.FLOAT);
+    public static final DataParameter<Float> DATA_BREWS = EntityDataManager.createKey(DruidEntity.class, DataSerializers.FLOAT);
+    public static final DataParameter<Float> DATA_WATER = EntityDataManager.createKey(DruidEntity.class, DataSerializers.FLOAT);
     //TODO i dont think dyes are SOLEY the thing that should be used to cast spells
-    private static final DataParameter<Float> DATA_DYES = EntityDataManager.createKey(DruidEntity.class, DataSerializers.FLOAT);
+    public static final DataParameter<Float> DATA_DYES = EntityDataManager.createKey(DruidEntity.class, DataSerializers.FLOAT);
 
     public DruidEntity(EntityType<DruidEntity> entityType, World world) {
         super(RegistryHandler.DRUID_ENTITY.get(), world);
@@ -83,29 +83,13 @@ public class DruidEntity extends CreatureEntity {
     }
 
     public void setWater(int water) {
-
         this.dataManager.set(DATA_WATER, (float) water);
-        //logger.info("set water");
     }
 
-    public boolean shouldCollectWater() {
+    //TODO max??
+    public boolean shouldCollectResource(DataParameter<Float> dataParameter, int max) {
 
-        if (this.dataManager.get(DATA_WATER).intValue() + this.dataManager.get(DATA_BREWS).intValue() > 10) {
-            setWater(16 - this.dataManager.get(DATA_BREWS).intValue());
-            //logger.info("should collect " + false);
-            return false;
-
-        }
-        return true;
-    }
-
-    public boolean shouldCollectDye() {
-        if (this.dataManager.get(DATA_DYES).intValue() + this.dataManager.get(DATA_BREWS).intValue() > 10) {
-            setDyes(16 - this.dataManager.get(DATA_BREWS).intValue());
-            return false;
-        }
-
-        return true;
+        return this.dataManager.get(dataParameter).intValue() + this.dataManager.get(DATA_BREWS).intValue() <= max;
     }
 
     public boolean brew() {
@@ -212,8 +196,6 @@ public class DruidEntity extends CreatureEntity {
     //TODO the druid does not eat the dye but mehhhh
     //TODO dyes?
     protected boolean handleEating(PlayerEntity player, ItemStack stack) {
-        boolean flag = false;
-        float f = 0.0F;
         Item item = stack.getItem();
 
         if (item instanceof DyeItem) {
@@ -232,13 +214,7 @@ public class DruidEntity extends CreatureEntity {
             this.brew();
             flag = true;
 
-        }
-        if (this.getHealth() < this.getMaxHealth() && f > 0.0F) {
-            this.heal(f);
-
-        }
-
-        return flag;
+        return false;
     }
 
     @OnlyIn(Dist.CLIENT)
